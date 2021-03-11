@@ -1,0 +1,216 @@
+package binh.le.game.memoryGame;
+
+import android.animation.ObjectAnimator;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import binh.le.game.R;
+import binh.le.game.base.BaseActivity;
+import binh.le.game.base.DialogInstruction;
+import binh.le.game.databinding.ActivityMemoryGameBinding;
+
+public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
+        implements AdapterView.OnItemClickListener {
+    private int pointCounter;
+    public long totalTime = 181000;
+    private boolean won;
+    ArrayList<ImageView> activeCards;
+    Integer[] gameArray;
+    ImageAdapter adapter;
+    int[] indexes;
+    ArrayList<Integer> checkMarkIndexes;
+
+    @Override
+    protected boolean isHaveRightMenu() {
+        return true;
+    }
+
+    @Override
+    protected boolean isHaveBackMenu() {
+        return true;
+    }
+
+    @Override
+    protected int getLayoutID() {
+        return R.layout.activity_memory_game;
+    }
+
+    @Override
+    protected String getActionBarTitle() {
+        return getString(R.string.title_activity_memory_game);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_information:
+                DialogInstruction dialogInstruction = DialogInstruction.newInstance(R.layout.dialog_memory_game_instruction);
+                dialogInstruction.show(getSupportFragmentManager(),"instruction");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void subscribeUi() {
+        binding.setAction(this);
+        adapter = new ImageAdapter(this, true);
+        gameArray = adapter.getArray();
+        binding.gameLayout.setAdapter(adapter);
+        won = false;
+        activeCards = new ArrayList<>();
+        pointCounter = 0;
+        binding.pointCounter.setText("Points: " + pointCounter);
+        indexes = new int[2];
+        checkMarkIndexes = new ArrayList<>();
+        for (int i = 0; i < binding.gameLayout.getAdapter().getCount(); i++) {
+            binding.gameLayout.getAdapter().getView(i, null, binding.gameLayout).setTag(R.drawable.placeholder);
+            ((ImageView) binding.gameLayout.getAdapter().getView(i, null, binding.gameLayout)).setImageResource(R.drawable.placeholder);
+        }
+        binding.gameLayout.setOnItemClickListener(this);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        checkGame(view, position);
+    }
+
+    /**
+     * Method that handles the game logic. Checks if cards are similar, Handles card animation
+     *
+     * @param card     the card that is being checked
+     * @param position the position of the card
+     */
+    public void checkGame(final View card, final int position) {
+
+        if ((int) (((ImageView) card).getTag()) != R.drawable.checkmark && activeCards.size() < 1) {
+            activeCards.add((ImageView) card);
+            indexes[0] = position;
+            ObjectAnimator flip = ObjectAnimator.ofFloat(card, "rotationY", 0f, 180f);
+            flip.setDuration(250);
+            flip.start();
+            new Handler(getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ((ImageView) card).setImageResource(gameArray[position]);
+                    ((ImageView) card).setTag(gameArray[position]);
+                }
+            }, 250);
+
+
+        }
+        //So user doesn't press same image twice
+        else if ((int) (((ImageView) card).getTag()) != R.drawable.checkmark && !((ImageView) card).equals(activeCards.get(0))) {
+            activeCards.add((ImageView) card);
+            indexes[1] = position;
+            ObjectAnimator flip = ObjectAnimator.ofFloat(card, "rotationY", 0f, 180f);
+            flip.setDuration(250);
+            flip.start();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ((ImageView) card).setImageResource(gameArray[position]);
+                    ((ImageView) card).setTag(gameArray[position]);
+                }
+            }, 250);
+        }
+        if (activeCards.size() >= 2) {
+            binding.gameLayout.setEnabled(false);
+            new Handler(getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    int size = activeCards.size();
+                    if (!(activeCards.get(0).getTag().equals(activeCards.get(1).getTag()))) {
+                        for (int i = 0; i < size; i++) {
+                            ObjectAnimator flip = ObjectAnimator.ofFloat(activeCards.get(0), "rotationY", 0f, 180f);
+                            flip.setDuration(250);
+                            flip.start();
+                            activeCards.get(0).setImageResource(R.drawable.placeholder);
+                            activeCards.get(0).setTag(R.drawable.placeholder);
+                            activeCards.remove(0);
+
+                        }
+                    }
+                    //Player choose correct two cards
+                    else if ((int) activeCards.get(0).getTag() != R.drawable.checkmark && (int) activeCards.get(1).getTag() != R.drawable.checkmark) {
+                        pointCounter += 1;
+                        if (pointCounter >= 10) {
+                            binding.pointCounter.setText("You Win!");
+                            won = true;
+                        } else {
+                            binding.pointCounter.setText("Points: " + pointCounter);
+                        }
+                        for (int i = 0; i < activeCards.size(); i++) {
+                            //activeCards.get(i).setImageResource(R.drawable.checkmark);
+                            binding.gameLayout.getAdapter().getView(indexes[i], null, binding.gameLayout).setTag(R.drawable.checkmark);
+                            checkMarkIndexes.add(indexes[i]);
+                            activeCards.get(i).setTag(R.drawable.checkmark);
+                            ObjectAnimator flip = ObjectAnimator.ofFloat(activeCards.get(i), "rotationY", 180f, 0);
+                            flip.setDuration(1);
+                            flip.start();
+                        }
+                        activeCards.clear();
+
+
+                    }
+                    binding.gameLayout.setEnabled(true);
+
+                }
+            }, 500);
+        }
+    }
+
+    public void shuffleGame() {
+        int size = checkMarkIndexes.size();
+        if (pointCounter > 0 && pointCounter < 10) {
+            Integer[] newArray = new Integer[20];
+            int index = 0;
+
+            ArrayList<Integer> gameArrayList = new ArrayList<>(Arrays.asList(gameArray));
+
+            for (Integer checkMarkIndex : checkMarkIndexes) {
+                newArray[index] = gameArray[checkMarkIndex];
+                gameArrayList.set(checkMarkIndex.intValue(), -1);
+                index++;
+            }
+            //Second passthrough looking for unknown images
+            for (Integer j : gameArrayList) {
+//
+                if (j.intValue() != -1) {
+                    newArray[index] = j;
+                    index++;
+                }
+
+            }
+            gameArray = newArray;
+            ((ImageAdapter) binding.gameLayout.getAdapter()).updateAdapter(newArray, size);
+            for (int i = 0; i < (pointCounter * 2); i++) {
+                checkMarkIndexes.set(i, i);
+            }
+
+
+        } else {
+            if (pointCounter >= 10) {
+                Toast.makeText(this, "You Win!!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Score 1 point to shuffle", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+}

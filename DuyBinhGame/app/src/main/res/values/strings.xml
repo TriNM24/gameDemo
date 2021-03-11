@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">DuyBinhGame</string>
+    <string name="actionbar_game_name">Project Game</string>
+    <string name="game1_name">Game 1</string>
+    <string name="game2_name">Game 2</string>
+    <string name="game3_name">Game 3</string>
+    <string name="game4_name">Game 4</string>
+
+    <string name="menu_information">Information</string>
+    <string name="menu_caro_game_dual_play">Dual play</string>
+    <string name="menu_caro_game_play_with_computer">Play with computer</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="title_activity_caro_game">Caro Game</string>
+    <string name="caro_game_com_vs_human_fragment_label">Computer Vs Human</string>
+    <string name="caro_game_dual_fragment_label">Human vs Human</string>
+    <string name="title_activity_memory_game">Memory Game</string>
+    <string name="memory_game_shuffle">Shuffle</string>
+
+    <string name="instructions_game_memory">Choose Two cards to flip over, if the images are the same you get a point, if not the images flip back over.
+    You must correctly choose the correct images within a certain amount of turns</string>
+
+    <!--sudoku game start-->
+    <string name="sudoku_game_title">Sudoku game</string>
+    <string name="sudoku_game_new_game">Start New Game</string>
+    <string name="sudoku_game_add_new_board">New board saved</string>
+    <string name="sudoku_game_add_show_instructions">Show instructions</string>
+    <string name="sudoku_game_difficulty_easy">Easy</string>
+    <string name="sudoku_game_difficulty_normal">Normal</string>
+    <string name="sudoku_game_difficulty_hard">Hard</string>
+    <string name="sudoku_game_tart_game">Start Game</string>
+    <string name="sudoku_game_show_instructions">Show instructions</string>
+    <string name="sudoku_game_check_board">Check board</string>
+    <string name="board_correct">Board is correct</string>
+    <string name="board_incorrect">Board is not correct</string>
+    <string name="start_piece_error">Can not change start piece</string>
+    <string name="choose_a_number">Choose number to place:</string>
+    <string name="choose_number">Choose number</string>
+    <string name="piece_unsure">Mark piece as unsure</string>
+    <string name="remove_piece">Remove piece</string>
+
+    <string name="instructions">Instructions</string>
+    <string name="instructions_1">1. In Sudoku it is intended to place all the remaining pieces on the board. The numbers range from 1 to 9 (in 9x9 Sudoku).</string>
+    <string name="instructions_2">2. The board is separated into several squares, and inside each of them it is only allowed to place one of each number.</string>
+    <string name="instructions_3">3. It is only allowed to place one of each number at each row, both horizontal and vertical.</string>
+
+    <string name="add_new_board">Add new board</string>
+    <string name="continue_new_save_board">Save</string>
+    <string name="successful_new_board">New board saved</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <!--sudoku game end-->
+
+</resources>
