@@ -4,7 +4,7 @@
     <data>
         <variable
             name="action"
-            type="binh.le.game.memoryGame.MemoryGameActivity" />
+            type="binh.le.game.gameBasic.memoryGame.MemoryGameActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,7 +12,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".memoryGame.MemoryGameActivity">
+        tools:context=".gameBasic.memoryGame.MemoryGameActivity">
 
         <Button
             android:id="@+id/shuffle_button"

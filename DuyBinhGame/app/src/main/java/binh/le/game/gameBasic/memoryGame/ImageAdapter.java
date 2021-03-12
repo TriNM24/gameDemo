@@ -1,4 +1,4 @@
-package binh.le.game.memoryGame;
+package binh.le.game.gameBasic.memoryGame;
 
 import android.content.Context;
 import android.view.LayoutInflater;

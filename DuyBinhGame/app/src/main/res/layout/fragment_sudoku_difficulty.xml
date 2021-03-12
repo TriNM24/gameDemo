@@ -3,13 +3,13 @@
     <data>
         <variable
             name="action"
-            type="binh.le.game.sudoku.SudokuGameDifficultyFragment" />
+            type="binh.le.game.gameBasic.sudoku.SudokuGameDifficultyFragment" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".sudoku.SudokuGameActivity"
+        tools:context=".gameBasic.sudoku.SudokuGameActivity"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <RadioGroup

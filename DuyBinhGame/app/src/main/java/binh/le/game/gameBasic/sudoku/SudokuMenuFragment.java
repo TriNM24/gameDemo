@@ -1,7 +1,6 @@
-package binh.le.game.sudoku;
+package binh.le.game.gameBasic.sudoku;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import binh.le.game.R;
 import binh.le.game.base.BaseFragment;

@@ -11,6 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/img_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_default_account"
+            android:layout_marginTop="@dimen/margin_20_dp"
+            android:onClick="@{()->onClick.openSetting()}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
         <Button
             android:id="@+id/btn_game1"
             android:layout_width="@dimen/btn_width"
@@ -20,10 +31,10 @@
             android:onClick="@{()->onClick.onClickGame1()}"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintBottom_toTopOf="@+id/btn_game3"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/btn_game2"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_game2"
+            app:layout_constraintTop_toBottomOf="@+id/img_user" />
 
         <Button
             android:id="@+id/btn_game2"
@@ -31,11 +42,12 @@
             android:layout_height="@dimen/btn_height"
             android:textStyle="bold"
             android:text="@string/game2_name"
+            android:layout_marginTop="@dimen/margin_8_dp"
             android:onClick="@{()->onClick.onClickGame2()}"
-            android:layout_marginLeft="@dimen/margin_20_dp"
-            app:layout_constraintLeft_toRightOf="@+id/btn_game1"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btn_game1" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_game1"
+            app:layout_constraintBottom_toTopOf="@+id/btn_game3"/>
 
         <Button
             android:id="@+id/btn_game3"
@@ -43,13 +55,12 @@
             android:layout_height="@dimen/btn_height"
             android:textStyle="bold"
             android:text="@string/game3_name"
+            android:layout_marginTop="@dimen/margin_8_dp"
             android:onClick="@{()->onClick.onClickGame3()}"
-            android:layout_marginTop="@dimen/margin_20_dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/btn_game4"
-            app:layout_constraintTop_toBottomOf="@+id/btn_game1" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_game2"
+            app:layout_constraintBottom_toTopOf="@+id/btn_game4"/>
 
         <Button
             android:id="@+id/btn_game4"
@@ -57,10 +68,11 @@
             android:layout_height="@dimen/btn_height"
             android:textStyle="bold"
             android:text="@string/game4_name"
+            android:layout_marginTop="@dimen/margin_8_dp"
             android:onClick="@{()->onClick.onClickGame4()}"
-            android:layout_marginLeft="@dimen/margin_20_dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_game3"
-            app:layout_constraintLeft_toRightOf="@+id/btn_game3"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_game3"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,4 +1,4 @@
-package binh.le.game.caroGame;
+package binh.le.game.gameBasic.caroGame;
 
 import android.os.Bundle;
 import android.view.Menu;

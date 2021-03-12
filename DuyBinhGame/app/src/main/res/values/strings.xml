@@ -9,6 +9,9 @@
     <string name="menu_information">Information</string>
     <string name="menu_caro_game_dual_play">Dual play</string>
     <string name="menu_caro_game_play_with_computer">Play with computer</string>
+
+    <string name="menu_setting_edit">Edit</string>
+    <string name="menu_save">Save</string>
     <!-- Strings used for fragments for navigation -->
     <string name="title_activity_caro_game">Caro Game</string>
     <string name="caro_game_com_vs_human_fragment_label">Computer Vs Human</string>
@@ -46,15 +49,24 @@
     <string name="add_new_board">Add new board</string>
     <string name="continue_new_save_board">Save</string>
     <string name="successful_new_board">New board saved</string>
+
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_mail">Not a valid mail</string>
     <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="confirm_title">Confirm</string>
+    <string name="verify_email">An email send to you to verify, please check and click to sent link</string>
+    <string name="login_message_password_invalid">The password is invalid</string>
+    <string name="login_message_incorrect_pass_or_mail">Invalid e-mail or password.</string>
+    <string name="login_message_incorrect_group_or_pass">Invalid group ID or password.</string>
+    <string name="message_network_error">Network error has occurred.</string>
+
+    <string name="setting_title">Setting</string>
+    <string name="setting_name">Name</string>
+    <string name="setting_set_new_pass">Set new pass</string>
     <!--sudoku game end-->
 
 </resources>

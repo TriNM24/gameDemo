@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <binh.le.game.caroGame.view.Board_ComVsHum
+        <binh.le.game.gameBasic.caroGame.view.Board_ComVsHum
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

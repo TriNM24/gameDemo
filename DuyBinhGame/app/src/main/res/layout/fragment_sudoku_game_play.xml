@@ -5,7 +5,7 @@
 
         <variable
             name="action"
-            type="binh.le.game.sudoku.SudokuGamePlayFragment" />
+            type="binh.le.game.gameBasic.sudoku.SudokuGamePlayFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,7 +31,7 @@
 
                 <fragment
                     android:id="@+id/cellGroupFragment"
-                    android:name="binh.le.game.sudoku.CellGroupFragment"
+                    android:name="binh.le.game.gameBasic.sudoku.CellGroupFragment"
                     android:layout_width="92dp"
                     android:layout_height="106dp"
                     android:layout_weight="1"
@@ -39,7 +39,7 @@
 
                 <fragment
                     android:id="@+id/cellGroupFragment2"
-                    android:name="binh.le.game.sudoku.CellGroupFragment"
+                    android:name="binh.le.game.gameBasic.sudoku.CellGroupFragment"
                     android:layout_width="92dp"
                     android:layout_height="106dp"
                     android:layout_weight="1"
@@ -47,7 +47,7 @@
 
                 <fragment
                     android:id="@+id/cellGroupFragment3"
-                    android:name="binh.le.game.sudoku.CellGroupFragment"
+                    android:name="binh.le.game.gameBasic.sudoku.CellGroupFragment"
                     android:layout_width="92dp"
                     android:layout_height="106dp"
                     android:layout_weight="1"
@@ -61,7 +61,7 @@
 
                 <fragment
                     android:id="@+id/cellGroupFragment4"
-                    android:name="binh.le.game.sudoku.CellGroupFragment"
+                    android:name="binh.le.game.gameBasic.sudoku.CellGroupFragment"
                     android:layout_width="92dp"
                     android:layout_height="106dp"
                     android:layout_weight="1"
@@ -69,7 +69,7 @@
 
                 <fragment
                     android:id="@+id/cellGroupFragment5"
-                    android:name="binh.le.game.sudoku.CellGroupFragment"
+                    android:name="binh.le.game.gameBasic.sudoku.CellGroupFragment"
                     android:layout_width="92dp"
                     android:layout_height="106dp"
                     android:layout_weight="1"
@@ -77,7 +77,7 @@
 
                 <fragment
                     android:id="@+id/cellGroupFragment6"
-                    android:name="binh.le.game.sudoku.CellGroupFragment"
+                    android:name="binh.le.game.gameBasic.sudoku.CellGroupFragment"
                     android:layout_width="92dp"
                     android:layout_height="106dp"
                     android:layout_weight="1"
@@ -90,7 +90,7 @@
 
                 <fragment
                     android:id="@+id/cellGroupFragment7"
-                    android:name="binh.le.game.sudoku.CellGroupFragment"
+                    android:name="binh.le.game.gameBasic.sudoku.CellGroupFragment"
                     android:layout_width="92dp"
                     android:layout_height="106dp"
                     android:layout_weight="1"
@@ -98,7 +98,7 @@
 
                 <fragment
                     android:id="@+id/cellGroupFragment8"
-                    android:name="binh.le.game.sudoku.CellGroupFragment"
+                    android:name="binh.le.game.gameBasic.sudoku.CellGroupFragment"
                     android:layout_width="92dp"
                     android:layout_height="106dp"
                     android:layout_weight="1"
@@ -106,7 +106,7 @@
 
                 <fragment
                     android:id="@+id/cellGroupFragment9"
-                    android:name="binh.le.game.sudoku.CellGroupFragment"
+                    android:name="binh.le.game.gameBasic.sudoku.CellGroupFragment"
                     android:layout_width="92dp"
                     android:layout_height="106dp"
                     android:layout_weight="1"

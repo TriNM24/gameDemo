@@ -1,4 +1,4 @@
-package binh.le.game.sudoku;
+package binh.le.game.gameBasic.sudoku;
 
 import android.os.Bundle;
 import android.view.View;

@@ -1,4 +1,4 @@
-package binh.le.game.sudoku.model;
+package binh.le.game.gameBasic.sudoku.model;
 
 import java.util.ArrayList;
 

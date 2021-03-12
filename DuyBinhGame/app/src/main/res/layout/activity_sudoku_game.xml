@@ -5,7 +5,7 @@
 
         <variable
             name="action"
-            type="binh.le.game.sudoku.SudokuGameActivity" />
+            type="binh.le.game.gameBasic.sudoku.SudokuGameActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,7 +13,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".sudoku.SudokuGameActivity">
+        tools:context=".gameBasic.sudoku.SudokuGameActivity">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment"

@@ -1,12 +1,31 @@
 package binh.le.game.login;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.events.Event;
+
+import binh.le.game.MainActivity;
 import binh.le.game.R;
 import binh.le.game.base.BaseActivity;
 import binh.le.game.databinding.ActivityLoginBinding;
+import binh.le.game.firebase.FirebaseHelper;
+import binh.le.game.ultis.LoadingDialog;
+import binh.le.game.ultis.Utils;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
+
+    LoadingDialog loadingDialog;
 
     @Override
     protected boolean isHaveRightMenu() {
@@ -30,7 +49,72 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
     @Override
     protected void subscribeUi() {
+        binding.setAction(this);
+        loadingDialog = LoadingDialog.newInstance(null);
+    }
 
+    public void login() {
+        String email = binding.username.getText().toString().trim();
+        String password = binding.password.getText().toString().trim();
+
+        //testt
+        email = "tri.nguyen833@gmail.com";
+        password = "123456";
+
+        String error = "";
+        if (TextUtils.isEmpty(email) || !Utils.validate(email)) {
+            error = getString(R.string.invalid_mail);
+        } else if (TextUtils.isEmpty(password) || password.length() <= 5) {
+            error = getString(R.string.invalid_password);
+        }
+        if (TextUtils.isEmpty(error)) {
+            getSupportFragmentManager().beginTransaction().add(loadingDialog, "").commitAllowingStateLoss();
+            FirebaseHelper.getInstance().getUserDao().signIn(email, password)
+                    .observe(this, authResultTask -> {
+                        processResult(authResultTask);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismissAllowingStateLoss();
+                            loadingDialog = null;
+                        }
+                    });
+        } else {
+            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void processResult(Task<AuthResult> authResultTask) {
+        if (authResultTask == null) {
+            Utils.showAlertDialog(this, getString(R.string.confirm_title), getString(R.string.verify_email));
+            return;
+        }
+        if (authResultTask.isSuccessful()) {
+            FirebaseUser firebaseUser1 = authResultTask.getResult().getUser();
+            if (firebaseUser1 != null) {
+                FirebaseHelper.getInstance().getUserDao().updateUserInfo(firebaseUser1.getUid(),
+                        firebaseUser1.getEmail()).observe(LoginActivity.this, aBoolean -> {
+                    startActivityWithAnimation(new Intent(this, MainActivity.class));
+                });
+
+            }
+        } else {
+            String error = null;
+            try {
+                throw authResultTask.getException();
+            } catch (FirebaseAuthWeakPasswordException e) {
+                error = getApplication().getString(R.string.login_message_password_invalid);
+            } catch (FirebaseAuthInvalidCredentialsException e) {
+                error = getApplication().getString(R.string.login_message_incorrect_pass_or_mail);
+            } catch (FirebaseNetworkException e) {
+                error = getApplication().getString(R.string.message_network_error);
+            } catch (Exception e) {
+                //error = e.getMessage();
+                error = getApplication().getString(R.string.message_network_error);
+            }
+
+            if (!TextUtils.isEmpty(error)) {
+                Utils.showAlertDialog(this, getString(R.string.confirm_title), error);
+            }
+        }
     }
 
     @Override

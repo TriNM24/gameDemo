@@ -1,4 +1,4 @@
-package binh.le.game.caroGame.view;
+package binh.le.game.gameBasic.caroGame.view;
 
 import android.app.AlertDialog;
 import android.content.Context;

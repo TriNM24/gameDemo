@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import binh.le.game.base.BaseActivity;
-import binh.le.game.caroGame.CaroGameActivity;
+import binh.le.game.gameBasic.caroGame.CaroGameActivity;
 import binh.le.game.databinding.ActivityMainBinding;
-import binh.le.game.memoryGame.MemoryGameActivity;
+import binh.le.game.gameBasic.memoryGame.MemoryGameActivity;
 import binh.le.game.service.BackgroundSoundService;
-import binh.le.game.sudoku.SudokuGameActivity;
+import binh.le.game.gameBasic.sudoku.SudokuGameActivity;
+import binh.le.game.setting.SettingActivity;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
@@ -73,5 +74,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         Toast.makeText(this, "onClickGame4", Toast.LENGTH_SHORT).show();
     }
 
+    public void openSetting(){
+        startActivityWithAnimation(new Intent(this, SettingActivity.class));
+    }
 
 }

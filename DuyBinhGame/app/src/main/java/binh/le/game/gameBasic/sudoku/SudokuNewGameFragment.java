@@ -1,12 +1,10 @@
-package binh.le.game.sudoku;
+package binh.le.game.gameBasic.sudoku;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -19,9 +17,7 @@ import java.io.IOException;
 import binh.le.game.R;
 import binh.le.game.base.BaseFragment;
 import binh.le.game.databinding.FragmentSudokuNewGameBinding;
-import binh.le.game.sudoku.model.Board;
-
-import static androidx.navigation.fragment.NavHostFragment.findNavController;
+import binh.le.game.gameBasic.sudoku.model.Board;
 
 public class SudokuNewGameFragment extends BaseFragment<FragmentSudokuNewGameBinding>
         implements ChooseNumberDiaglogFragment.Callback {

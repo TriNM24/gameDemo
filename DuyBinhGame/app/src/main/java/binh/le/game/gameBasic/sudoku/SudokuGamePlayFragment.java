@@ -1,4 +1,4 @@
-package binh.le.game.sudoku;
+package binh.le.game.gameBasic.sudoku;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,7 +19,7 @@ import binh.le.game.R;
 import binh.le.game.base.BaseFragment;
 import binh.le.game.base.DialogInstruction;
 import binh.le.game.databinding.FragmentSudokuGamePlayBinding;
-import binh.le.game.sudoku.model.Board;
+import binh.le.game.gameBasic.sudoku.model.Board;
 
 public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayBinding>{
 
