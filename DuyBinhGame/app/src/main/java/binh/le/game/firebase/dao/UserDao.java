@@ -1,5 +1,6 @@
 package binh.le.game.firebase.dao;
 
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -20,7 +21,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.security.PublicKey;
+import java.util.List;
 
 import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.firebase.model.User;
@@ -139,15 +146,110 @@ public class UserDao {
     /**
      * Update {@link User} info
      *
-     * @param userId   *
+     * @param userId *
      */
     public LiveData<Boolean> updateUserInfo(String userId, String email) {
         MediatorLiveData<Boolean> result = new MediatorLiveData<>();
         firebase.getReference(Constants.USER_PATH)
                 .child(userId).updateChildren(
-                new User(userId, email).toMap(),(databaseError, databaseReference) -> {
+                new User(userId, email).toMap(), (databaseError, databaseReference) -> {
                     result.postValue(true);
                 });
         return result;
     }
+
+    public void updateGamePoint(int game,long gamePoint){
+        String gamePath = Constants.User.SCORE_GAME1;
+        switch (game){
+            case 1:
+                gamePath = Constants.User.SCORE_GAME1;
+                break;
+            case 2:
+                gamePath = Constants.User.SCORE_GAME2;
+                break;
+            case 3:
+                gamePath = Constants.User.SCORE_GAME3;
+                break;
+            case 4:
+                gamePath = Constants.User.SCORE_GAME4;
+                break;
+            default:
+                gamePath = Constants.User.SCORE_GAME1;
+
+        }
+        String uid = mAuth.getCurrentUser().getUid();
+        firebase.getReference(Constants.USER_PATH).child(uid)
+                .child(gamePath).setValue(gamePoint);
+    }
+
+    public LiveData<String> updateImage(Bitmap bitmap) {
+        MediatorLiveData<String> result = new MediatorLiveData<>();
+        String uid = mAuth.getCurrentUser().getUid();
+        StorageReference imageRef = StorageRef.child(uid);
+        StorageMetadata metadata = new StorageMetadata.Builder()
+                .setContentType("image/jpg")
+                .build();
+        List<UploadTask> tasks = imageRef.getActiveUploadTasks();
+        if (tasks.size() > 0) {
+            // Get the task monitoring the upload
+            UploadTask task = tasks.get(0);
+            if (!task.isComplete()) {
+                result.postValue(null);
+            }
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        UploadTask uploadTask = imageRef.putBytes(data);
+
+        uploadTask.addOnFailureListener(e -> {
+            result.postValue(e.getMessage());
+        });
+
+        uploadTask.addOnCanceledListener(() -> {
+            result.postValue("Cancel upload.");
+        });
+
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            //do nothing
+        });
+        uploadTask.continueWithTask(task -> {
+            if (!task.isSuccessful()) {
+                throw task.getException();
+            }
+            return imageRef.getDownloadUrl();
+        }).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                result.postValue(task.getResult().toString());
+            } else {
+                result.postValue(task.getException().getMessage());
+            }
+        });
+        return result;
+    }
+
+    public LiveData<User> getUser(String userId) {
+        MediatorLiveData<User> liveData = new MediatorLiveData<>();
+        if (!TextUtils.isEmpty(userId)) {
+            DatabaseReference user = firebase.getReference(Constants.USER_PATH)
+                    .child(userId);
+            user.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.getValue() != null){
+                        liveData.setValue(dataSnapshot.getValue(User.class));
+                    }else{
+                        liveData.setValue(null);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        return liveData;
+    }
+
 }

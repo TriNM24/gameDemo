@@ -1,10 +1,17 @@
 package binh.le.game;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
+
 import binh.le.game.base.BaseActivity;
+import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.gameBasic.caroGame.CaroGameActivity;
 import binh.le.game.databinding.ActivityMainBinding;
 import binh.le.game.gameBasic.memoryGame.MemoryGameActivity;
@@ -53,6 +60,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void subscribeUi() {
         binding.setOnClick(this);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        Uri photoUrl = currentUser.getPhotoUrl();
+        if(photoUrl != null){
+            Picasso.get().load(photoUrl).placeholder(R.drawable.img_default_account).fit().into(binding.imgUser);
+        }
+        String userName = currentUser.getDisplayName();
+        userName = TextUtils.isEmpty(userName) ? currentUser.getEmail() : userName;
+        binding.txtName.setText(userName);
     }
 
     public void onClickGame1() {

@@ -18,6 +18,8 @@ import binh.le.game.R;
 import binh.le.game.base.BaseActivity;
 import binh.le.game.base.DialogInstruction;
 import binh.le.game.databinding.ActivityMemoryGameBinding;
+import binh.le.game.firebase.FirebaseHelper;
+import binh.le.game.ultis.Utils;
 
 public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
         implements AdapterView.OnItemClickListener {
@@ -29,6 +31,9 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
     ImageAdapter adapter;
     int[] indexes;
     ArrayList<Integer> checkMarkIndexes;
+
+    //variable to save point for game
+    long mStartTime = 0;
 
     @Override
     protected boolean isHaveRightMenu() {
@@ -88,6 +93,9 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(mStartTime == 0){
+            mStartTime = System.currentTimeMillis();
+        }
         checkGame(view, position);
     }
 
@@ -208,6 +216,9 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
         } else {
             if (pointCounter >= 10) {
                 Toast.makeText(this, "You Win!!", Toast.LENGTH_SHORT).show();
+                //update point for game 2
+                FirebaseHelper.getInstance().getUserDao().updateGamePoint(2,
+                        Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime));
             } else {
                 Toast.makeText(this, "Score 1 point to shuffle", Toast.LENGTH_SHORT).show();
             }

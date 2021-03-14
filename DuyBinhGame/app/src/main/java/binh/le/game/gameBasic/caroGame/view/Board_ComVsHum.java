@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.WindowManager;
 
 import binh.le.game.R;
+import binh.le.game.firebase.FirebaseHelper;
+import binh.le.game.ultis.Utils;
 
 public class Board_ComVsHum extends View {
     private int m = 40, n = 40; // Khởi tạo số ô cờ
@@ -37,6 +39,9 @@ public class Board_ComVsHum extends View {
     private int[][] arr = new int[m][n];
 
     private boolean isFirstInit = true;
+
+    //variable to save point for game
+    long mStartTime = 0;
 
     public Board_ComVsHum(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -126,12 +131,48 @@ public class Board_ComVsHum extends View {
         }
     }
 
+    public void showWinDialog(boolean humWin){
+        if(humWin) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Cờ caro");
+            builder.setIcon(R.drawable.congra);
+            builder.setMessage("Người đã chiến thắng máy");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.create().show();
+            //update point for game 1
+            FirebaseHelper.getInstance().getUserDao().updateGamePoint(1,
+                    Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime));
+        }else{
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Cờ caro");
+            builder.setIcon(R.drawable.congra);
+            //builder.setIcon(R.drawable.images);
+            builder.setMessage("Máy đã chiến thắng người");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.create().show();
+        }
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // Gọi thằng đi trước từ Obj_Setting
         int action = event.getActionMasked();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                if(mStartTime == 0){
+                    mStartTime = System.currentTimeMillis();
+                }
+
                 // tọa độ X của điểm chạm
                 mX = (int) event.getX();// Tọa độ khik2 đánh ở X
                 // tọa độ Y của điểm chạm
@@ -170,7 +211,7 @@ public class Board_ComVsHum extends View {
                             index++;
                         }
                         if (demhuman >= 5) {
-                            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setTitle("Cờ caro");
                             builder.setIcon(R.drawable.congra);
                             builder.setMessage("Người đã chiến thắng máy");
@@ -180,7 +221,8 @@ public class Board_ComVsHum extends View {
                                     dialog.cancel();
                                 }
                             });
-                            builder.create().show();
+                            builder.create().show();*/
+                            showWinDialog(true);
                         }
 
                         demhuman = 1;
@@ -195,7 +237,7 @@ public class Board_ComVsHum extends View {
                             index++;
                         }
                         if (demhuman >= 5) {
-                            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setTitle("Cờ caro");
                             builder.setIcon(R.drawable.congra);
                             builder.setMessage("Người đã chiến thắng máy");
@@ -205,7 +247,8 @@ public class Board_ComVsHum extends View {
                                     dialog.cancel();
                                 }
                             });
-                            builder.create().show();
+                            builder.create().show();*/
+                            showWinDialog(true);
                         }
 
                         demhuman = 1;
@@ -220,7 +263,7 @@ public class Board_ComVsHum extends View {
                             index++;
                         }
                         if (demhuman >= 5) {
-                            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setTitle("Cờ caro");
                             builder.setIcon(R.drawable.congra);
                             builder.setMessage("Người đã chiến thắng máy");
@@ -230,7 +273,8 @@ public class Board_ComVsHum extends View {
                                     dialog.cancel();
                                 }
                             });
-                            builder.create().show();
+                            builder.create().show();*/
+                            showWinDialog(true);
                         }
 
                         demhuman = 1;
@@ -245,7 +289,7 @@ public class Board_ComVsHum extends View {
                             index++;
                         }
                         if (demhuman >= 5) {
-                            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setTitle("Cờ caro");
                             builder.setIcon(R.drawable.congra);
                             builder.setMessage("Người đã chiến thắng máy");
@@ -255,13 +299,14 @@ public class Board_ComVsHum extends View {
                                     dialog.cancel();
                                 }
                             });
-                            builder.create().show();
+                            builder.create().show();*/
+                            showWinDialog(true);
                         }
 
                         this.invalidate();// Hàm này để vẽ lại quân cờ đã chọn
 
                         if (demhuman >= 5) {
-                            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setTitle("Cờ caro");
                             builder.setIcon(R.drawable.congra);
                             builder.setMessage("Người đã chiến thắng máy");
@@ -271,7 +316,8 @@ public class Board_ComVsHum extends View {
                                     dialog.cancel();
                                 }
                             });
-                            builder.create().show();
+                            builder.create().show();*/
+                            showWinDialog(true);
                         }
                     }
 
@@ -645,18 +691,7 @@ public class Board_ComVsHum extends View {
                                 this.arr[(int) maxi][(int) maxj] = x_cell;
 
                                 if (dem_x_cell >= 5) {
-                                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setTitle("Cờ caro");
-                                    builder.setIcon(R.drawable.congra);
-                                    //builder.setIcon(R.drawable.images);
-                                    builder.setMessage("Máy đã chiến thắng người");
-                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                                    builder.create().show();
+                                    showWinDialog(false);
                                 }
 
                                 // Kiểm tra cột dọc
@@ -672,7 +707,7 @@ public class Board_ComVsHum extends View {
                                     index++;
                                 }
                                 if (dem_x_cell >= 5) {
-                                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                     builder.setTitle("Cờ caro");
                                     builder.setIcon(R.drawable.congra);
                                     //builder.setIcon(R.drawable.images);
@@ -683,7 +718,8 @@ public class Board_ComVsHum extends View {
                                             dialog.cancel();
                                         }
                                     });
-                                    builder.create().show();
+                                    builder.create().show();*/
+                                    showWinDialog(false);
                                 }
 
 
@@ -701,7 +737,7 @@ public class Board_ComVsHum extends View {
                                 }
                                 this.arr[(int) maxi][(int) maxj] = x_cell;
                                 if (dem_x_cell >= 5) {
-                                    System.out.println("dem_x_cell = " + dem_x_cell + ",firstPlayerX == false" + ",hangcom=" + hangcom + ",cotcom=" + cotcom);
+                                    /*System.out.println("dem_x_cell = " + dem_x_cell + ",firstPlayerX == false" + ",hangcom=" + hangcom + ",cotcom=" + cotcom);
                                     final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                     builder.setTitle("Cờ caro");
                                     builder.setIcon(R.drawable.congra);
@@ -713,7 +749,8 @@ public class Board_ComVsHum extends View {
                                             dialog.cancel();
                                         }
                                     });
-                                    builder.create().show();
+                                    builder.create().show();*/
+                                    showWinDialog(false);
                                 }
                                 // Kiểm tra chéo phải
                                 dem_x_cell = 1;
@@ -730,7 +767,7 @@ public class Board_ComVsHum extends View {
                                 this.arr[(int) maxi][(int) maxj] = x_cell;
 
                                 if (dem_x_cell >= 5) {
-                                    System.out.println("dem_x_cell = " + dem_x_cell + ",firstPlayerX == false" + ",hangcom=" + hangcom + ",cotcom=" + cotcom);
+                                    /*System.out.println("dem_x_cell = " + dem_x_cell + ",firstPlayerX == false" + ",hangcom=" + hangcom + ",cotcom=" + cotcom);
                                     final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                     builder.setTitle("Cờ caro");
                                     builder.setIcon(R.drawable.congra);
@@ -742,7 +779,8 @@ public class Board_ComVsHum extends View {
                                             dialog.cancel();
                                         }
                                     });
-                                    builder.create().show();
+                                    builder.create().show();*/
+                                    showWinDialog(false);
                                 }
                             }
 
@@ -762,7 +800,7 @@ public class Board_ComVsHum extends View {
                                 }
                                 this.arr[(int) maxi][(int) maxj] = o_cell;
                                 if (dem_o_cell >= 5) {
-                                    System.out.println("dem_o_cell = " + dem_o_cell + "firstPlayerX == false");
+                                    /*System.out.println("dem_o_cell = " + dem_o_cell + "firstPlayerX == false");
                                     final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                     builder.setTitle("Cờ caro");
                                     builder.setIcon(R.drawable.congra);
@@ -774,7 +812,8 @@ public class Board_ComVsHum extends View {
                                             dialog.cancel();
                                         }
                                     });
-                                    builder.create().show();
+                                    builder.create().show();*/
+                                    showWinDialog(false);
                                 }
                                 // Kiểm tra cột dọc
                                 dem_o_cell = 1;
@@ -790,7 +829,7 @@ public class Board_ComVsHum extends View {
                                 }
                                 this.arr[(int) maxi][(int) maxj] = o_cell;
                                 if (dem_o_cell >= 5) {
-                                    System.out.println("dem_o_cell = " + dem_o_cell + "firstPlayerX == false");
+                                    /*System.out.println("dem_o_cell = " + dem_o_cell + "firstPlayerX == false");
                                     final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                     builder.setTitle("Cờ caro");
                                     builder.setIcon(R.drawable.congra);
@@ -802,7 +841,8 @@ public class Board_ComVsHum extends View {
                                             dialog.cancel();
                                         }
                                     });
-                                    builder.create().show();
+                                    builder.create().show();*/
+                                    showWinDialog(false);
                                 }
                                 // Kiểm tra chéo trái
                                 dem_o_cell = 1;
@@ -818,7 +858,7 @@ public class Board_ComVsHum extends View {
                                 }
                                 this.arr[(int) maxi][(int) maxj] = o_cell;
                                 if (dem_o_cell >= 5) {
-                                    System.out.println("dem_o_cell = " + dem_o_cell + "firstPlayerX == false");
+                                    /*System.out.println("dem_o_cell = " + dem_o_cell + "firstPlayerX == false");
                                     final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                     builder.setTitle("Cờ caro");
                                     builder.setIcon(R.drawable.congra);
@@ -830,7 +870,8 @@ public class Board_ComVsHum extends View {
                                             dialog.cancel();
                                         }
                                     });
-                                    builder.create().show();
+                                    builder.create().show();*/
+                                    showWinDialog(false);
                                 }
                                 // Kiểm tra chéo phải
                                 dem_o_cell = 1;
@@ -847,7 +888,7 @@ public class Board_ComVsHum extends View {
                                 this.arr[(int) maxi][(int) maxj] = o_cell;
 
                                 if (dem_o_cell >= 5) {
-                                    System.out.println("dem_o_cell = " + dem_o_cell + "firstPlayerX == true");
+                                    /*System.out.println("dem_o_cell = " + dem_o_cell + "firstPlayerX == true");
                                     final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                     builder.setTitle("Cờ caro");
                                     builder.setIcon(R.drawable.congra);
@@ -859,7 +900,8 @@ public class Board_ComVsHum extends View {
                                             dialog.cancel();
                                         }
                                     });
-                                    builder.create().show();
+                                    builder.create().show();*/
+                                    showWinDialog(false);
                                 }
                             }
                         }

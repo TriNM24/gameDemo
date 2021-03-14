@@ -19,7 +19,9 @@ import binh.le.game.R;
 import binh.le.game.base.BaseFragment;
 import binh.le.game.base.DialogInstruction;
 import binh.le.game.databinding.FragmentSudokuGamePlayBinding;
+import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.gameBasic.sudoku.model.Board;
+import binh.le.game.ultis.Utils;
 
 public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayBinding>{
 
@@ -30,6 +32,9 @@ public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayB
     private int clickedCellId;
     private Board startBoard;
     private Board currentBoard;
+
+    //variable to save point for game
+    long mStartTime = 0;
 
     @Override
     protected int getLayoutID() {
@@ -197,6 +202,9 @@ public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayB
         currentBoard.isBoardCorrect();
         if(checkAllGroups() && currentBoard.isBoardCorrect()) {
             Toast.makeText(getContext(), getString(R.string.board_correct), Toast.LENGTH_SHORT).show();
+            //update point for game 3
+            FirebaseHelper.getInstance().getUserDao().updateGamePoint(3,
+                    Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime));
         } else {
             Toast.makeText(getContext(), getString(R.string.board_incorrect), Toast.LENGTH_SHORT).show();
         }
@@ -208,6 +216,11 @@ public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayB
     }
 
     public void onFragmentInteraction(int groupId, int cellId, View view) {
+
+        if(mStartTime == 0){
+            mStartTime = System.currentTimeMillis();
+        }
+
         clickedCell = (TextView) view;
         clickedGroup = groupId;
         clickedCellId = cellId;
