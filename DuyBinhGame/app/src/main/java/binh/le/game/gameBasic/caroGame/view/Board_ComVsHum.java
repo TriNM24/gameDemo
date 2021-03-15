@@ -131,6 +131,18 @@ public class Board_ComVsHum extends View {
         }
     }
 
+    private void clear() {
+        arr = new int[m][n];
+        System.err.println("onCreate boardchess");
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[0].length; j++) {
+                // 3 Xóa trắng các ô cờ
+                this.arr[i][j] = empty_cell;
+            }
+        }
+        invalidate();
+    }
+
     public void showWinDialog(boolean humWin){
         if(humWin) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -140,6 +152,7 @@ public class Board_ComVsHum extends View {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    clear();
                     dialog.cancel();
                 }
             });
@@ -156,6 +169,7 @@ public class Board_ComVsHum extends View {
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    clear();
                     dialog.cancel();
                 }
             });
@@ -211,17 +225,6 @@ public class Board_ComVsHum extends View {
                             index++;
                         }
                         if (demhuman >= 5) {
-                            /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle("Cờ caro");
-                            builder.setIcon(R.drawable.congra);
-                            builder.setMessage("Người đã chiến thắng máy");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-                            builder.create().show();*/
                             showWinDialog(true);
                         }
 
@@ -237,17 +240,6 @@ public class Board_ComVsHum extends View {
                             index++;
                         }
                         if (demhuman >= 5) {
-                            /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle("Cờ caro");
-                            builder.setIcon(R.drawable.congra);
-                            builder.setMessage("Người đã chiến thắng máy");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-                            builder.create().show();*/
                             showWinDialog(true);
                         }
 
@@ -263,17 +255,6 @@ public class Board_ComVsHum extends View {
                             index++;
                         }
                         if (demhuman >= 5) {
-                            /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle("Cờ caro");
-                            builder.setIcon(R.drawable.congra);
-                            builder.setMessage("Người đã chiến thắng máy");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-                            builder.create().show();*/
                             showWinDialog(true);
                         }
 
@@ -289,34 +270,12 @@ public class Board_ComVsHum extends View {
                             index++;
                         }
                         if (demhuman >= 5) {
-                            /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle("Cờ caro");
-                            builder.setIcon(R.drawable.congra);
-                            builder.setMessage("Người đã chiến thắng máy");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-                            builder.create().show();*/
                             showWinDialog(true);
                         }
 
                         this.invalidate();// Hàm này để vẽ lại quân cờ đã chọn
 
                         if (demhuman >= 5) {
-                            /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle("Cờ caro");
-                            builder.setIcon(R.drawable.congra);
-                            builder.setMessage("Người đã chiến thắng máy");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-                            builder.create().show();*/
                             showWinDialog(true);
                         }
                     }
@@ -707,18 +666,6 @@ public class Board_ComVsHum extends View {
                                     index++;
                                 }
                                 if (dem_x_cell >= 5) {
-                                    /*final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setTitle("Cờ caro");
-                                    builder.setIcon(R.drawable.congra);
-                                    //builder.setIcon(R.drawable.images);
-                                    builder.setMessage("Máy đã chiến thắng người");
-                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                                    builder.create().show();*/
                                     showWinDialog(false);
                                 }
 
@@ -737,19 +684,6 @@ public class Board_ComVsHum extends View {
                                 }
                                 this.arr[(int) maxi][(int) maxj] = x_cell;
                                 if (dem_x_cell >= 5) {
-                                    /*System.out.println("dem_x_cell = " + dem_x_cell + ",firstPlayerX == false" + ",hangcom=" + hangcom + ",cotcom=" + cotcom);
-                                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setTitle("Cờ caro");
-                                    builder.setIcon(R.drawable.congra);
-                                    //builder.setIcon(R.drawable.images);
-                                    builder.setMessage("Máy đã chiến thắng người");
-                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                                    builder.create().show();*/
                                     showWinDialog(false);
                                 }
                                 // Kiểm tra chéo phải
@@ -767,19 +701,6 @@ public class Board_ComVsHum extends View {
                                 this.arr[(int) maxi][(int) maxj] = x_cell;
 
                                 if (dem_x_cell >= 5) {
-                                    /*System.out.println("dem_x_cell = " + dem_x_cell + ",firstPlayerX == false" + ",hangcom=" + hangcom + ",cotcom=" + cotcom);
-                                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setTitle("Cờ caro");
-                                    builder.setIcon(R.drawable.congra);
-                                    //builder.setIcon(R.drawable.images);
-                                    builder.setMessage("Máy đã chiến thắng người");
-                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                                    builder.create().show();*/
                                     showWinDialog(false);
                                 }
                             }
@@ -800,19 +721,6 @@ public class Board_ComVsHum extends View {
                                 }
                                 this.arr[(int) maxi][(int) maxj] = o_cell;
                                 if (dem_o_cell >= 5) {
-                                    /*System.out.println("dem_o_cell = " + dem_o_cell + "firstPlayerX == false");
-                                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setTitle("Cờ caro");
-                                    builder.setIcon(R.drawable.congra);
-                                    //builder.setIcon(R.drawable.images);
-                                    builder.setMessage("Máy đã chiến thắng người");
-                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                                    builder.create().show();*/
                                     showWinDialog(false);
                                 }
                                 // Kiểm tra cột dọc
@@ -829,19 +737,6 @@ public class Board_ComVsHum extends View {
                                 }
                                 this.arr[(int) maxi][(int) maxj] = o_cell;
                                 if (dem_o_cell >= 5) {
-                                    /*System.out.println("dem_o_cell = " + dem_o_cell + "firstPlayerX == false");
-                                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setTitle("Cờ caro");
-                                    builder.setIcon(R.drawable.congra);
-                                    //builder.setIcon(R.drawable.images);
-                                    builder.setMessage("Máy đã chiến thắng người");
-                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                                    builder.create().show();*/
                                     showWinDialog(false);
                                 }
                                 // Kiểm tra chéo trái
@@ -858,19 +753,6 @@ public class Board_ComVsHum extends View {
                                 }
                                 this.arr[(int) maxi][(int) maxj] = o_cell;
                                 if (dem_o_cell >= 5) {
-                                    /*System.out.println("dem_o_cell = " + dem_o_cell + "firstPlayerX == false");
-                                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setTitle("Cờ caro");
-                                    builder.setIcon(R.drawable.congra);
-                                    //builder.setIcon(R.drawable.images);
-                                    builder.setMessage("Máy đã chiến thắng người");
-                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                                    builder.create().show();*/
                                     showWinDialog(false);
                                 }
                                 // Kiểm tra chéo phải
@@ -888,19 +770,6 @@ public class Board_ComVsHum extends View {
                                 this.arr[(int) maxi][(int) maxj] = o_cell;
 
                                 if (dem_o_cell >= 5) {
-                                    /*System.out.println("dem_o_cell = " + dem_o_cell + "firstPlayerX == true");
-                                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setTitle("Cờ caro");
-                                    builder.setIcon(R.drawable.congra);
-                                    //builder.setIcon(R.drawable.images);
-                                    builder.setMessage("Máy đã chiến thắng người");
-                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                                    builder.create().show();*/
                                     showWinDialog(false);
                                 }
                             }
@@ -940,7 +809,4 @@ public class Board_ComVsHum extends View {
         }
         return super.onTouchEvent(event);
     }
-    //Source code by LamNguyen
-
-
 }
