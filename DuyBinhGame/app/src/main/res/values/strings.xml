@@ -69,6 +69,7 @@
     <string name="setting_name">Name</string>
     <string name="setting_set_new_pass">Set new pass</string>
     <string name="setting_set_new_value">Set new value</string>
+    <string name="setting_set_new_done">Done</string>
     <string name="setting_upate_success">User profile updated.</string>
     <string name="setting_best_score">User best score</string>
     <string name="setting_best_score_game1">Game1: %s seconds</string>

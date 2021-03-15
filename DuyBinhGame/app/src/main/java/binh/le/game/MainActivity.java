@@ -61,7 +61,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void subscribeUi() {
         binding.setOnClick(this);
+        FirebaseHelper.getInstance().getUserDao().keepSyncedData();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Uri photoUrl = currentUser.getPhotoUrl();
         if(photoUrl != null){
@@ -70,8 +75,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         String userName = currentUser.getDisplayName();
         userName = TextUtils.isEmpty(userName) ? currentUser.getEmail() : userName;
         binding.txtName.setText(userName);
-
-        FirebaseHelper.getInstance().getUserDao().keepSyncedData();
     }
 
     public void onClickGame1() {

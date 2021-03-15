@@ -5,6 +5,7 @@ public interface Constants {
     interface User {
         String ID = "id";
         String EMAIL = "email";
+        String NAME = "name";
         String SCORE_GAME1 = "scoreGame1";
         String SCORE_GAME2 = "scoreGame2";
         String SCORE_GAME3 = "scoreGame3";

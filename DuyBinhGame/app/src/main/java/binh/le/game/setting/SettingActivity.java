@@ -81,7 +81,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding> {
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveData(){
+    private void saveData() {
         getSupportFragmentManager().beginTransaction().add(loadingDialog, "").commitAllowingStateLoss();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -89,6 +89,8 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding> {
                 .setDisplayName(mUserName)
                 .setPhotoUri(Uri.parse(mLinkImage))
                 .build();
+
+        FirebaseHelper.getInstance().getUserDao().updateUserName(mUserName);
 
         currentUser.updateProfile(profileUpdates)
                 .addOnCompleteListener(task -> {
@@ -99,7 +101,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding> {
                         loadingDialog.dismissAllowingStateLoss();
                     }
                 });
-        if(!TextUtils.isEmpty(mPass)) {
+        if (!TextUtils.isEmpty(mPass)) {
             currentUser.updatePassword(mPass);
         }
     }
@@ -121,21 +123,21 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding> {
     public void getCurrentData() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Uri photoUrl = currentUser.getPhotoUrl();
-        mLinkImage = photoUrl != null ? photoUrl.toString():"";
+        mLinkImage = photoUrl != null ? photoUrl.toString() : "";
         mUserName = currentUser.getDisplayName();
         mUserName = TextUtils.isEmpty(mUserName) ? currentUser.getEmail() : mUserName;
 
         binding.txtMail.setText(currentUser.getEmail());
         if (!TextUtils.isEmpty(mLinkImage)) {
-            Picasso.get().load(Uri.parse(mLinkImage)).placeholder(R.drawable.img_default_account).fit().into( binding.imgUser);
+            Picasso.get().load(Uri.parse(mLinkImage)).placeholder(R.drawable.img_default_account).fit().into(binding.imgUser);
         }
         binding.txtName.setText(mUserName);
 
-        FirebaseHelper.getInstance().getUserDao().getUser(currentUser.getUid()).observe(this,user -> {
-            binding.layoutScore.txtGame1Title.setText(getString(R.string.setting_best_score_game1,String.valueOf(user.getScoreGame1())));
-            binding.layoutScore.txtGame2Title.setText(getString(R.string.setting_best_score_game2,String.valueOf(user.getScoreGame2())));
-            binding.layoutScore.txtGame3Title.setText(getString(R.string.setting_best_score_game3,String.valueOf(user.getScoreGame3())));
-            binding.layoutScore.txtGame4Title.setText(getString(R.string.setting_best_score_game4,String.valueOf(user.getScoreGame4())));
+        FirebaseHelper.getInstance().getUserDao().getUser(currentUser.getUid()).observe(this, user -> {
+            binding.layoutScore.txtGame1Title.setText(getString(R.string.setting_best_score_game1, String.valueOf(user.getScoreGame1())));
+            binding.layoutScore.txtGame2Title.setText(getString(R.string.setting_best_score_game2, String.valueOf(user.getScoreGame2())));
+            binding.layoutScore.txtGame3Title.setText(getString(R.string.setting_best_score_game3, String.valueOf(user.getScoreGame3())));
+            binding.layoutScore.txtGame4Title.setText(getString(R.string.setting_best_score_game4, String.valueOf(user.getScoreGame4())));
         });
     }
 

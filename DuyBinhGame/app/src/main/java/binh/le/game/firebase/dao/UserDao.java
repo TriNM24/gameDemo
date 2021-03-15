@@ -231,6 +231,12 @@ public class UserDao {
         return result;
     }
 
+    public void updateUserName(String userName){
+        String uid = mAuth.getCurrentUser().getUid();
+        firebase.getReference(Constants.USER_PATH).child(uid)
+                .child(Constants.User.NAME).setValue(userName);
+    }
+
     public void updateGamePoint(int game, long gamePoint) {
         String gamePath = Constants.User.SCORE_GAME1;
         switch (game) {

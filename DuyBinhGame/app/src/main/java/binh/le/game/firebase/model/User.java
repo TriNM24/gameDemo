@@ -12,6 +12,7 @@ public class User {
 
     private String id;
     private String email;
+    private String name;
     private long scoreGame1, scoreGame2, scoreGame3, scoreGame4;
 
     public User() {
@@ -20,19 +21,7 @@ public class User {
     public User(String id, String email) {
         this.id = id;
         this.email = email;
-        scoreGame1 = 0;
-        scoreGame2 = 0;
-        scoreGame3 = 0;
-        scoreGame4 = 0;
-    }
-
-    public User(String id, String email, long scoreGame1, long scoreGame2, long scoreGame3, long scoreGame4) {
-        this.id = id;
-        this.email = email;
-        this.scoreGame1 = scoreGame1;
-        this.scoreGame2 = scoreGame2;
-        this.scoreGame3 = scoreGame3;
-        this.scoreGame4 = scoreGame4;
+        this.name = email;
     }
 
 
@@ -84,15 +73,20 @@ public class User {
         this.scoreGame4 = scoreGame4;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put(Constants.User.ID, id);
         result.put(Constants.User.EMAIL, email);
-        result.put(Constants.User.SCORE_GAME1, scoreGame1);
-        result.put(Constants.User.SCORE_GAME2, scoreGame2);
-        result.put(Constants.User.SCORE_GAME3, scoreGame3);
-        result.put(Constants.User.SCORE_GAME4, scoreGame4);
+        result.put(Constants.User.NAME, name);
         return result;
     }
 }

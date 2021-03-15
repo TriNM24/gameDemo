@@ -39,7 +39,7 @@ public class TopPlayerAdapter extends RecyclerView.Adapter<TopPlayerAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txt_user_mail.setText(mData.get(position).getEmail());
+        holder.txt_user_mail.setText(mData.get(position).getName());
 
         String score = "";
         Context context = holder.itemView.getContext();
