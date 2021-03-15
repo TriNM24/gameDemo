@@ -1,7 +1,5 @@
 package binh.le.game.login;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,7 +11,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.events.Event;
 
 import binh.le.game.MainActivity;
 import binh.le.game.R;
@@ -65,7 +62,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         }
         if (TextUtils.isEmpty(error)) {
             getSupportFragmentManager().beginTransaction().add(loadingDialog, "").commitAllowingStateLoss();
-            FirebaseHelper.getInstance().getUserDao().signIn(email, password, false)
+            FirebaseHelper.getInstance().getUserDao().signIn(email, password, true)
                     .observe(this, authResultTask -> {
                         processResult(authResultTask);
                         if (loadingDialog != null) {

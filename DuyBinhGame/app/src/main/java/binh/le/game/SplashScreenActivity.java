@@ -49,12 +49,12 @@ public class SplashScreenActivity extends BaseActivity<ActivitySplashScreenBindi
         UserDao userDao = FirebaseHelper.getInstance().getUserDao();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         //check for verify function
-        /*if (currentUser != null && currentUser.isEmailVerified()) {
-            isLogined = true;
-        }*/
-        if (currentUser != null) {
+        if (currentUser != null && currentUser.isEmailVerified()) {
             isLogined = true;
         }
+        /*if (currentUser != null) {
+            isLogined = true;
+        }*/
     }
 
     private synchronized void checkUser() {
