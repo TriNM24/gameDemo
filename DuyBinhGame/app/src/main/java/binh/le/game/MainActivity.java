@@ -15,6 +15,7 @@ import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.gameBasic.caroGame.CaroGameActivity;
 import binh.le.game.databinding.ActivityMainBinding;
 import binh.le.game.gameBasic.memoryGame.MemoryGameActivity;
+import binh.le.game.gameBasic.shootingGame.ShootingActivity;
 import binh.le.game.gameBasic.topPlayer.TopPlayerActivity;
 import binh.le.game.service.BackgroundSoundService;
 import binh.le.game.gameBasic.sudoku.SudokuGameActivity;
@@ -48,7 +49,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         intentMusicBg = new Intent(MainActivity.this, BackgroundSoundService.class);
-        startService(intentMusicBg);
     }
 
     @Override
@@ -67,6 +67,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void onResume() {
         super.onResume();
+        startService(intentMusicBg);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         Uri photoUrl = currentUser.getPhotoUrl();
         if(photoUrl != null){
@@ -93,12 +94,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     public void onClickGame4() {
-        Toast.makeText(this, "onClickGame4", Toast.LENGTH_SHORT).show();
+        Intent sudokuGame = new Intent(this, ShootingActivity.class);
+        startActivityWithAnimation(sudokuGame);
+        stopService(intentMusicBg);
     }
 
     public void onClickTopPlayer(){
         Intent top = new Intent(this, TopPlayerActivity.class);
         startActivityWithAnimation(top);
+        stopService(intentMusicBg);
     }
 
     public void openSetting(){

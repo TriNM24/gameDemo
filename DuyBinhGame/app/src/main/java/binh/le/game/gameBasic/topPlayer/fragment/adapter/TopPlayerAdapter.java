@@ -57,7 +57,7 @@ public class TopPlayerAdapter extends RecyclerView.Adapter<TopPlayerAdapter.View
                 break;
             }
             case 4:{
-                score = context.getString(R.string.top_score,mData.get(position).getScoreGame4());
+                score = context.getString(R.string.shooting_game_score,mData.get(position).getScoreGame4());
                 break;
             }
 

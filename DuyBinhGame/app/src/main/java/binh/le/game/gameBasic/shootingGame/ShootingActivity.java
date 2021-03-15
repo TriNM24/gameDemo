@@ -1,24 +1,26 @@
-package binh.le.game.gameBasic.topPlayer;
+package binh.le.game.gameBasic.shootingGame;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import binh.le.game.R;
 import binh.le.game.base.BaseActivity;
-import binh.le.game.databinding.ActivityTopPlayerBinding;
-import binh.le.game.gameBasic.topPlayer.fragment.SectionsPagerAdapter;
+import binh.le.game.databinding.ActivityShootTheGuyBinding;
+import binh.le.game.gameBasic.shootingGame.view.SoundEffects;
 
-public class TopPlayerActivity extends BaseActivity<ActivityTopPlayerBinding> {
+public class ShootingActivity extends BaseActivity<ActivityShootTheGuyBinding> {
 
-    Menu menu;
-    private boolean play_music;
+
     private MediaPlayer player;
+    private boolean play_music;
+    Menu menu;
 
     @Override
     protected boolean isHaveRightMenu() {
-        return false;
+        return true;
     }
 
     @Override
@@ -28,28 +30,25 @@ public class TopPlayerActivity extends BaseActivity<ActivityTopPlayerBinding> {
 
     @Override
     protected int getLayoutID() {
-        return R.layout.activity_top_player;
+        return R.layout.activity_shoot_the_guy;
     }
 
     @Override
     protected String getActionBarTitle() {
-        return getString(R.string.title_activity_top_player);
+        return getString(R.string.shooting_game_title);
     }
 
     @Override
     protected void subscribeUi() {
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        binding.viewPager.setAdapter(sectionsPagerAdapter);
-        binding.tabs.setupWithViewPager(binding.viewPager);
-
-        player = MediaPlayer.create(this, R.raw.win_sound);
+        binding.setAction(this);
+        // Create a new MediaPlayer object and initialize it. We will then start playing the
+        // background music when the activity resumes, and pause it when the activity pauses.
+        player = MediaPlayer.create(this, R.raw.braincandy);
         player.setLooping(true);
         play_music = true;
-    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        // Set the context fo the SoundEffects singleton class
+        SoundEffects.INSTANCE.setContext(this);
     }
 
     @Override
@@ -92,6 +91,7 @@ public class TopPlayerActivity extends BaseActivity<ActivityTopPlayerBinding> {
     protected void onPause() {
         if (play_music)
             player.pause();
+        binding.drawView.stopGame();
         super.onPause();
     }
 
@@ -100,6 +100,7 @@ public class TopPlayerActivity extends BaseActivity<ActivityTopPlayerBinding> {
         super.onResume();
         if (play_music)
             player.start();
+        binding.drawView.resumeGame();
     }
 
     @Override
@@ -111,4 +112,25 @@ public class TopPlayerActivity extends BaseActivity<ActivityTopPlayerBinding> {
         play_music = false;
         super.onDestroy();
     }
+
+    public void onClick(View v) {
+
+        // Using the View's ID to distinguish which button was clicked
+        switch (v.getId()) {
+            case R.id.moveLeftButton:
+                binding.drawView.moveCannonLeft();
+                break;
+
+            case R.id.moveRightButton:
+                binding.drawView.moveCannonRight();
+                break;
+            case R.id.shootButton:
+                binding.drawView.shootCannon();
+                break;
+            default:
+                break;
+        }
+
+    }
+
 }

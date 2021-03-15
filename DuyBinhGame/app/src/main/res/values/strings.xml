@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">DuyBinhGame</string>
     <string name="actionbar_game_name">Project Game</string>
-    <string name="game1_name">Game 1</string>
-    <string name="game2_name">Game 2</string>
-    <string name="game3_name">Game 3</string>
-    <string name="game4_name">Game 4</string>
+    <string name="game1_name">Caro Game</string>
+    <string name="game2_name">Memory Game</string>
+    <string name="game3_name">Sudoku Game</string>
+    <string name="game4_name">Defend Game</string>
     <string name="top_players">Top players</string>
 
     <string name="menu_information">Information</string>
@@ -78,11 +78,15 @@
     <string name="setting_best_score_game4">Game4: %s seconds</string>
 
     <string name="title_activity_top_player">Top Players</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="tab_text_3">Tab 3</string>
-    <string name="tab_text_4">Tab 4</string>
+    <string name="tab_text_1">Caro</string>
+    <string name="tab_text_2">Memory</string>
+    <string name="tab_text_3">Sudoku</string>
+    <string name="tab_text_4">Defend</string>
     <string name="top_score">%d seconds</string>
+
+    <string name="shooting_game_title">Shooting game</string>
+    <string name="shooting_game_score">Score: %d</string>
+    <string name="shooting_game_remain">Remain: %d</string>
     <!--sudoku game end-->
 
 </resources>

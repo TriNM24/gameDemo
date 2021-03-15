@@ -18,14 +18,10 @@
             android:theme="@style/Theme.DuyBinhGame.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="www.example.com"
                     android:scheme="http" />
@@ -38,6 +34,8 @@
         <activity
             android:name=".gameBasic.caroGame.CaroGameActivity"
             android:label="@string/title_activity_caro_game" />
+
+        <activity android:name=".gameBasic.shootingGame.ShootingActivity"/>
 
         <service
             android:name=".service.BackgroundSoundService"

@@ -38,9 +38,4 @@ public class SudokuMenuFragment extends BaseFragment<FragmentSudokuMenuBinding> 
     public void onAddNewBoardButtonClicked(){
         findNavController(this).navigate(R.id.action_sudokuMenuFragment_to_sudokuNewGameFragment);
     }
-
-    public void onShowInstructionsButtonClicked() {
-        DialogInstruction dialogInstruction = DialogInstruction.newInstance(R.layout.dialog_instruction_sudoku);
-        dialogInstruction.show(getChildFragmentManager(),"instruction");
-    }
 }

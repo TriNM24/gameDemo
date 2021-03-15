@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import binh.le.game.R;
 import binh.le.game.base.BaseFragment;
@@ -49,6 +50,9 @@ public class PlaceholderFragment extends BaseFragment<FragmentTopPlayerBinding> 
 
         FirebaseHelper.getInstance().getUserDao().getTopUsers(game)
         .observe(getViewLifecycleOwner(), users -> {
+            if(game == 4){
+                Collections.reverse(users);
+            }
             mAdapter.updateData(users);
             mAdapter.notifyDataSetChanged();
         });

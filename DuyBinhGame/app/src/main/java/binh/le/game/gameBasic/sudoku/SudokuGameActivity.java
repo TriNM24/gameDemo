@@ -1,20 +1,24 @@
 package binh.le.game.gameBasic.sudoku;
 
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.FragmentNavigator;
 
 import binh.le.game.R;
 import binh.le.game.base.BaseActivity;
+import binh.le.game.base.DialogInstruction;
 import binh.le.game.databinding.ActivitySudokuGameBinding;
 
 public class SudokuGameActivity extends BaseActivity<ActivitySudokuGameBinding> {
 
     @Override
     protected boolean isHaveRightMenu() {
-        return false;
+        return true;
     }
 
     @Override
@@ -44,6 +48,17 @@ public class SudokuGameActivity extends BaseActivity<ActivitySudokuGameBinding> 
 
     @Override
     public void onBackPressed() {
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_information:
+                DialogInstruction dialogInstruction = DialogInstruction.newInstance(R.layout.dialog_instruction_sudoku);
+                dialogInstruction.show(getSupportFragmentManager(),"instruction");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
