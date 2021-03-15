@@ -5,6 +5,7 @@
     <string name="game2_name">Game 2</string>
     <string name="game3_name">Game 3</string>
     <string name="game4_name">Game 4</string>
+    <string name="top_players">Top players</string>
 
     <string name="menu_information">Information</string>
     <string name="menu_caro_game_dual_play">Dual play</string>
@@ -74,6 +75,12 @@
     <string name="setting_best_score_game2">Game2: %s seconds</string>
     <string name="setting_best_score_game3">Game3: %s seconds</string>
     <string name="setting_best_score_game4">Game4: %s seconds</string>
+
+    <string name="title_activity_top_player">Top Players</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="tab_text_4">Tab 4</string>
     <!--sudoku game end-->
 
 </resources>

@@ -15,6 +15,7 @@ import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.gameBasic.caroGame.CaroGameActivity;
 import binh.le.game.databinding.ActivityMainBinding;
 import binh.le.game.gameBasic.memoryGame.MemoryGameActivity;
+import binh.le.game.gameBasic.topPlayer.TopPlayerActivity;
 import binh.le.game.service.BackgroundSoundService;
 import binh.le.game.gameBasic.sudoku.SudokuGameActivity;
 import binh.le.game.setting.SettingActivity;
@@ -88,6 +89,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     public void onClickGame4() {
         Toast.makeText(this, "onClickGame4", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onClickTopPlayer(){
+        Intent top = new Intent(this, TopPlayerActivity.class);
+        startActivityWithAnimation(top);
     }
 
     public void openSetting(){

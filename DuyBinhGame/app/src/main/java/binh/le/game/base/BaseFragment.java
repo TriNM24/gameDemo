@@ -1,6 +1,7 @@
 package binh.le.game.base;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,9 @@ public abstract class BaseFragment <BD extends ViewDataBinding> extends Fragment
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle(getActionBarTitle());
+        if(!TextUtils.isEmpty(getActionBarTitle())) {
+            getActivity().setTitle(getActionBarTitle());
+        }
         subscribeUi();
     }
 }

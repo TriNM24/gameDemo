@@ -1,16 +1,23 @@
 package binh.le.game.firebase.dao;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
+import android.os.Parcel;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.ActionCodeSettings;
+import com.google.firebase.auth.AdditionalUserInfo;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
@@ -28,6 +35,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.security.PublicKey;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.firebase.model.User;
@@ -52,47 +60,27 @@ public class UserDao {
      * @param email
      * @param password
      */
-    public LiveData<Task<AuthResult>> signIn(String email, String password) {
+    public LiveData<Task<AuthResult>> signIn(String email, String password, boolean isNeedVerify) {
         MediatorLiveData<Task<AuthResult>> liveData = new MediatorLiveData<>();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        if (user.isEmailVerified()) {
+                        if (isNeedVerify && !user.isEmailVerified()) {
+                            Log.d(TAG, "not isEmailVerified");
+                            liveData.addSource(sendVerifyEmai(user), authResultTask -> {
+                                liveData.setValue(authResultTask);
+                            });
+                        } else {
                             Log.d(TAG, "isEmailVerified");
                             // Sign in success, update UI with the signed-in user's information
                             liveData.setValue(task);
-                        } else {
-                            Log.d(TAG, "not isEmailVerified");
-                            String url = "http://www.example.com/verify?uid=" + user.getUid();
-                            ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
-                                    .setUrl(url)
-                                    .setHandleCodeInApp(false)
-                                    // The default for this is populated with the current android package name.
-                                    .setAndroidPackageName("binh.le.game", false, null)
-                                    .build();
-
-                            user.sendEmailVerification(actionCodeSettings).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        // email sent
-                                        // after email is sent just logout the user and finish this activity
-                                        FirebaseAuth.getInstance().signOut();
-                                        Log.d(TAG, "send isSuccessful");
-                                        liveData.setValue(null);
-                                    } else {
-                                        // email not sent, so display message and restart the activity or do whatever you wish to do
-                                        Log.d(TAG, "send fail " + task.getException());
-                                    }
-                                }
-                            });
                         }
                     } else {
                         // If sign in with user not found, sign-up new user.
                         if (task.getException() instanceof FirebaseAuthInvalidUserException &&
                                 ((FirebaseAuthInvalidUserException) task.getException()).getErrorCode().equals(FirebaseHelper.ERROR_USER_NOT_FOUND)) {
-                            liveData.addSource(signUp(email, password), liveData::setValue);
+                            liveData.addSource(signUp(email, password, isNeedVerify), liveData::setValue);
                         } else {
                             liveData.setValue(task);
                         }
@@ -107,39 +95,119 @@ public class UserDao {
      * @param email
      * @param password
      */
-    public LiveData<Task<AuthResult>> signUp(String email, String password) {
+    public LiveData<Task<AuthResult>> signUp(String email, String password, boolean isNeedVerify) {
         MediatorLiveData<Task<AuthResult>> liveData = new MediatorLiveData<>();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Log.d(TAG, "not isEmailVerified");
-                        String url = "http://www.example.com/verify?uid=" + user.getUid();
-                        ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
-                                .setUrl(url)
-                                .setHandleCodeInApp(false)
-                                // The default for this is populated with the current android package name.
-                                .setAndroidPackageName("binh.le.game", false, null)
-                                .build();
-
-                        user.sendEmailVerification(actionCodeSettings).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    // email sent
-                                    // after email is sent just logout the user and finish this activity
-                                    FirebaseAuth.getInstance().signOut();
-                                    Log.d(TAG, "send isSuccessful");
-                                    liveData.setValue(null);
-                                } else {
-                                    // email not sent, so display message and restart the activity or do whatever you wish to do
-                                    Log.d(TAG, "send fail " + task.getException());
-
-                                }
-                            }
-                        });
+                        if (isNeedVerify) {
+                            Log.d(TAG, "not isEmailVerified");
+                            liveData.addSource(sendVerifyEmai(user), authResultTask -> {
+                                liveData.setValue(authResultTask);
+                            });
+                        }
                     }
                 });
+        return liveData;
+    }
+
+    private LiveData<Task<AuthResult>> sendVerifyEmai(FirebaseUser user) {
+        MediatorLiveData<Task<AuthResult>> liveData = new MediatorLiveData<>();
+        String url = "http://www.example.com/verify?uid=" + user.getUid();
+        ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
+                .setUrl(url)
+                .setHandleCodeInApp(false)
+                // The default for this is populated with the current android package name.
+                .setAndroidPackageName("binh.le.game", false, null)
+                .build();
+
+        user.sendEmailVerification(actionCodeSettings).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    // email sent
+                    // after email is sent just logout the user and finish this activity
+                    FirebaseAuth.getInstance().signOut();
+                    Log.d(TAG, "send isSuccessful");
+                    liveData.setValue(null);
+                } else {
+                    // email not sent, so display message and restart the activity or do whatever you wish to do
+                    Log.d(TAG, "send fail " + task.getException());
+                    Task<AuthResult> resultTask = new Task<AuthResult>() {
+                        @Override
+                        public boolean isComplete() {
+                            return true;
+                        }
+
+                        @Override
+                        public boolean isSuccessful() {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean isCanceled() {
+                            return false;
+                        }
+
+                        @Nullable
+                        @Override
+                        public AuthResult getResult() {
+                            return null;
+                        }
+
+                        @Nullable
+                        @Override
+                        public <X extends Throwable> AuthResult getResult(@NonNull Class<X> aClass) throws X {
+                            return null;
+                        }
+
+                        @Nullable
+                        @Override
+                        public Exception getException() {
+                            return task.getException();
+                        }
+
+                        @NonNull
+                        @Override
+                        public Task<AuthResult> addOnSuccessListener(@NonNull OnSuccessListener<? super AuthResult> onSuccessListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @Override
+                        public Task<AuthResult> addOnSuccessListener(@NonNull Executor executor, @NonNull OnSuccessListener<? super AuthResult> onSuccessListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @Override
+                        public Task<AuthResult> addOnSuccessListener(@NonNull Activity activity, @NonNull OnSuccessListener<? super AuthResult> onSuccessListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @Override
+                        public Task<AuthResult> addOnFailureListener(@NonNull OnFailureListener onFailureListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @Override
+                        public Task<AuthResult> addOnFailureListener(@NonNull Executor executor, @NonNull OnFailureListener onFailureListener) {
+                            return null;
+                        }
+
+                        @NonNull
+                        @Override
+                        public Task<AuthResult> addOnFailureListener(@NonNull Activity activity, @NonNull OnFailureListener onFailureListener) {
+                            return null;
+                        }
+                    };
+                    liveData.setValue(resultTask);
+                }
+            }
+        });
         return liveData;
     }
 
@@ -158,9 +226,9 @@ public class UserDao {
         return result;
     }
 
-    public void updateGamePoint(int game,long gamePoint){
+    public void updateGamePoint(int game, long gamePoint) {
         String gamePath = Constants.User.SCORE_GAME1;
-        switch (game){
+        switch (game) {
             case 1:
                 gamePath = Constants.User.SCORE_GAME1;
                 break;
@@ -236,9 +304,9 @@ public class UserDao {
             user.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.getValue() != null){
+                    if (dataSnapshot.getValue() != null) {
                         liveData.setValue(dataSnapshot.getValue(User.class));
-                    }else{
+                    } else {
                         liveData.setValue(null);
                     }
                 }

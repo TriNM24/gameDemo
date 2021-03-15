@@ -57,10 +57,6 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         String email = binding.username.getText().toString().trim();
         String password = binding.password.getText().toString().trim();
 
-        //testt
-        email = "tri.nguyen833@gmail.com";
-        password = "123456";
-
         String error = "";
         if (TextUtils.isEmpty(email) || !Utils.validate(email)) {
             error = getString(R.string.invalid_mail);
@@ -69,7 +65,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         }
         if (TextUtils.isEmpty(error)) {
             getSupportFragmentManager().beginTransaction().add(loadingDialog, "").commitAllowingStateLoss();
-            FirebaseHelper.getInstance().getUserDao().signIn(email, password)
+            FirebaseHelper.getInstance().getUserDao().signIn(email, password, false)
                     .observe(this, authResultTask -> {
                         processResult(authResultTask);
                         if (loadingDialog != null) {
@@ -107,8 +103,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             } catch (FirebaseNetworkException e) {
                 error = getApplication().getString(R.string.message_network_error);
             } catch (Exception e) {
-                //error = e.getMessage();
-                error = getApplication().getString(R.string.message_network_error);
+                error = e.getMessage();
+                //error = getApplication().getString(R.string.message_network_error);
             }
 
             if (!TextUtils.isEmpty(error)) {

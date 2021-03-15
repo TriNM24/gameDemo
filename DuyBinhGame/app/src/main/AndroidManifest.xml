@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DuyBinhGame">
-        <activity android:name=".setting.SettingActivity"></activity>
+        <activity
+            android:name=".gameBasic.topPlayer.TopPlayerActivity"
+            android:label="@string/title_activity_top_player" />
+        <activity android:name=".setting.SettingActivity" />
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/Theme.DuyBinhGame.NoActionBar">
@@ -28,15 +31,7 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".gameBasic.sudoku.SudokuGameActivity" />
         <activity android:name=".gameBasic.memoryGame.MemoryGameActivity" />
@@ -46,7 +41,7 @@
 
         <service
             android:name=".service.BackgroundSoundService"
-            android:enabled="true"></service>
+            android:enabled="true" />
     </application>
 
 </manifest>
