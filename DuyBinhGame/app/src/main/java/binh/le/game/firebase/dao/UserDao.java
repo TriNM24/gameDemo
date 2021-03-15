@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,10 +35,12 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.security.PublicKey;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
 import binh.le.game.firebase.FirebaseHelper;
+import binh.le.game.firebase.FirebaseUtils;
 import binh.le.game.firebase.model.User;
 import binh.le.game.ultis.Constants;
 
@@ -106,6 +109,8 @@ public class UserDao {
                             liveData.addSource(sendVerifyEmai(user), authResultTask -> {
                                 liveData.setValue(authResultTask);
                             });
+                        }else{
+                            liveData.setValue(task);
                         }
                     }
                 });
@@ -320,4 +325,51 @@ public class UserDao {
         return liveData;
     }
 
+    public LiveData<List<User>> getTopUsers(int game){
+        MediatorLiveData<List<User>> result = new MediatorLiveData<>();
+        String orderChild;
+        switch (game){
+            case 1:{
+                orderChild = Constants.User.SCORE_GAME1;
+                break;
+            }
+            case 2:{
+                orderChild = Constants.User.SCORE_GAME2;
+                break;
+            }
+            case 3:{
+                orderChild = Constants.User.SCORE_GAME3;
+                break;
+            }
+            case 4:{
+                orderChild = Constants.User.SCORE_GAME4;
+                break;
+            }
+            default:
+                orderChild = Constants.User.SCORE_GAME1;
+        }
+        firebase.getReference(Constants.USER_PATH).orderByChild(orderChild)
+                .limitToLast(10)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getValue() != null){
+                            List<User> users = FirebaseUtils.getListValue(dataSnapshot, User.class);
+                            result.setValue(users);
+                        }else{
+                            result.setValue(new ArrayList<>());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+        return result;
+    }
+
+    public void keepSyncedData(){
+        firebase.getReference(Constants.USER_PATH).keepSynced(true);
+    }
 }

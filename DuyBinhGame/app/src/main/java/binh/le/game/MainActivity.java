@@ -70,6 +70,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         String userName = currentUser.getDisplayName();
         userName = TextUtils.isEmpty(userName) ? currentUser.getEmail() : userName;
         binding.txtName.setText(userName);
+
+        FirebaseHelper.getInstance().getUserDao().keepSyncedData();
     }
 
     public void onClickGame1() {

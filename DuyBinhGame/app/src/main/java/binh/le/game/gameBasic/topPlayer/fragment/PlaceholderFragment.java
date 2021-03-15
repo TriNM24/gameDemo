@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import binh.le.game.R;
 import binh.le.game.base.BaseFragment;
 import binh.le.game.databinding.FragmentTopPlayerBinding;
+import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.gameBasic.topPlayer.fragment.adapter.TopPlayerAdapter;
 
 
@@ -39,15 +40,20 @@ public class PlaceholderFragment extends BaseFragment<FragmentTopPlayerBinding> 
 
     @Override
     protected void subscribeUi() {
-        ArrayList<String> animalNames = new ArrayList<>();
-        animalNames.add("Horse");
-        animalNames.add("Cow");
-        animalNames.add("Camel");
-        animalNames.add("Sheep");
-        animalNames.add("Goat");
+
+        int game = getArguments().getInt(ARG_SECTION_NUMBER,1);
         binding.listItem.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.listItem.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        mAdapter = new TopPlayerAdapter(getContext(), animalNames);
+        mAdapter = new TopPlayerAdapter(getContext(),game);
         binding.listItem.setAdapter(mAdapter);
+
+        FirebaseHelper.getInstance().getUserDao().getTopUsers(game)
+        .observe(getViewLifecycleOwner(), users -> {
+            mAdapter.updateData(users);
+            mAdapter.notifyDataSetChanged();
+        });
+
+
+
     }
 }

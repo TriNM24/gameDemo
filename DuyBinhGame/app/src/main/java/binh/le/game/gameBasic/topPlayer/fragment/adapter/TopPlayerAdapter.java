@@ -1,5 +1,6 @@
 package binh.le.game.gameBasic.topPlayer.fragment.adapter;
 
+import android.app.Application;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import binh.le.game.R;
+import binh.le.game.firebase.model.User;
 
 public class TopPlayerAdapter extends RecyclerView.Adapter<TopPlayerAdapter.ViewHolder> {
 
-    private List<String> mData;
+    private List<User> mData;
     private LayoutInflater mInflater;
+    private int game;
 
-    public TopPlayerAdapter(Context context, List<String> mData) {
+    public TopPlayerAdapter(Context context, int game) {
         this.mInflater = LayoutInflater.from(context);
-        this.mData = mData;
+        this.game = game;
+    }
+
+    public void updateData(List<User> data){
+        this.mData = data;
     }
 
     @NonNull
@@ -32,12 +39,35 @@ public class TopPlayerAdapter extends RecyclerView.Adapter<TopPlayerAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txt_user_mail.setText(mData.get(position));
+        holder.txt_user_mail.setText(mData.get(position).getEmail());
+
+        String score = "";
+        Context context = holder.itemView.getContext();
+        switch (game){
+            case 1:{
+                score = context.getString(R.string.top_score,mData.get(position).getScoreGame1());
+                break;
+            }
+            case 2:{
+                score = context.getString(R.string.top_score,mData.get(position).getScoreGame2());
+                break;
+            }
+            case 3:{
+                score = context.getString(R.string.top_score,mData.get(position).getScoreGame3());
+                break;
+            }
+            case 4:{
+                score = context.getString(R.string.top_score,mData.get(position).getScoreGame4());
+                break;
+            }
+
+        }
+        holder.txt_score.setText(score);
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData == null ? 0 : mData.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
