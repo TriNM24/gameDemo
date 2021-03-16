@@ -19,6 +19,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.squareup.picasso.Picasso;
 
 import binh.le.game.R;
+import binh.le.game.SplashScreenActivity;
 import binh.le.game.base.BaseActivity;
 import binh.le.game.databinding.ActivitySettingBinding;
 import binh.le.game.firebase.FirebaseHelper;
@@ -77,8 +78,19 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding> {
                 enableEdit(false);
                 saveData();
                 return true;
+            case R.id.menu_setting_logout:
+                logOut();
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void logOut(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, SplashScreenActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivityWithAnimation(intent);
+        finish();
     }
 
     private void saveData() {

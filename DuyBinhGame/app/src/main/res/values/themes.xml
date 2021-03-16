@@ -22,4 +22,12 @@
     <style name="Theme.DuyBinhGame.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.DuyBinhGame.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="ConfirmTheme" parent="Theme.AppCompat.Light.Dialog.Alert"/>
+
+    <style name="Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- We do not want to change the status bar color -->
+        <item name="colorPrimaryDark">@color/teal_400</item>
+    </style>
+
 </resources>

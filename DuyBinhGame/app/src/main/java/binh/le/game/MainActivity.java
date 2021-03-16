@@ -78,6 +78,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         binding.txtName.setText(userName);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopService(intentMusicBg);
+    }
+
     public void onClickGame1() {
         Intent caroGame = new Intent(this, CaroGameActivity.class);
         startActivityWithAnimation(caroGame);
@@ -96,13 +102,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public void onClickGame4() {
         Intent sudokuGame = new Intent(this, ShootingActivity.class);
         startActivityWithAnimation(sudokuGame);
-        stopService(intentMusicBg);
     }
 
     public void onClickTopPlayer(){
         Intent top = new Intent(this, TopPlayerActivity.class);
         startActivityWithAnimation(top);
-        stopService(intentMusicBg);
     }
 
     public void openSetting(){

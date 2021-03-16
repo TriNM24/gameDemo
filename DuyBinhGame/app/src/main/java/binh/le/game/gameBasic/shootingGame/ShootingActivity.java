@@ -1,15 +1,19 @@
 package binh.le.game.gameBasic.shootingGame;
 
+import android.app.AlertDialog;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import binh.le.game.R;
 import binh.le.game.base.BaseActivity;
 import binh.le.game.databinding.ActivityShootTheGuyBinding;
+import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.gameBasic.shootingGame.view.SoundEffects;
+import binh.le.game.ultis.Utils;
 
 public class ShootingActivity extends BaseActivity<ActivityShootTheGuyBinding> {
 
@@ -88,6 +92,29 @@ public class ShootingActivity extends BaseActivity<ActivityShootTheGuyBinding> {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        if(isHaveBackMenu()) {
+            binding.drawView.stopGame();
+            Utils.showConfirmDialog(ShootingActivity.this,getString(R.string.game4_name),
+                    getString(R.string.alert_game_4_out, binding.drawView.score.getScore()), (dialog, which) -> {
+                        if(which == AlertDialog.BUTTON_POSITIVE){
+                            dialog.dismiss();
+                            binding.drawView.resumeGame();
+                        }else{
+                            FirebaseHelper.getInstance().getUserDao().updateGamePoint(4,binding.drawView.score.getScore());
+                            finish();
+                            overridePendingTransition(R.anim.slide_left_enter, R.anim.slide_right_exit);
+                        }
+                    });
+        }
+        return true;
+    }
+
+    public void gameOver(){
+        Toast.makeText(this, "aaaaaaaaaa", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     protected void onPause() {
         if (play_music)
             player.pause();
@@ -100,7 +127,6 @@ public class ShootingActivity extends BaseActivity<ActivityShootTheGuyBinding> {
         super.onResume();
         if (play_music)
             player.start();
-        binding.drawView.resumeGame();
     }
 
     @Override

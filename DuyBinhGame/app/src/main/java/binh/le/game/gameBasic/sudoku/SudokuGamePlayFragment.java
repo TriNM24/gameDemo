@@ -23,7 +23,7 @@ import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.gameBasic.sudoku.model.Board;
 import binh.le.game.ultis.Utils;
 
-public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayBinding>{
+public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayBinding> {
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -65,7 +65,7 @@ public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayB
                 R.id.cellGroupFragment5, R.id.cellGroupFragment6, R.id.cellGroupFragment7, R.id.cellGroupFragment8, R.id.cellGroupFragment9};
         for (int i = 1; i < 10; i++) {
             //CellGroupFragment thisCellGroupFragment = (CellGroupFragment) getSupportFragmentManager().findFragmentById(cellGroupFragments[i-1]);
-            CellGroupFragment thisCellGroupFragment = (CellGroupFragment) getChildFragmentManager().findFragmentById(cellGroupFragments[i-1]);
+            CellGroupFragment thisCellGroupFragment = (CellGroupFragment) getChildFragmentManager().findFragmentById(cellGroupFragments[i - 1]);
             thisCellGroupFragment.setGroupId(i);
         }
 
@@ -181,8 +181,8 @@ public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayB
     }
 
     private boolean isStartPiece(int group, int cell) {
-        int row = ((group-1)/3)*3 + (cell/3);
-        int column = ((group-1)%3)*3 + ((cell)%3);
+        int row = ((group - 1) / 3) * 3 + (cell / 3);
+        int column = ((group - 1) % 3) * 3 + ((cell) % 3);
         return startBoard.getValue(row, column) != 0;
     }
 
@@ -200,11 +200,11 @@ public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayB
 
     public void onCheckBoardButtonClicked() {
         currentBoard.isBoardCorrect();
-        if(checkAllGroups() && currentBoard.isBoardCorrect()) {
+        if (checkAllGroups() && currentBoard.isBoardCorrect()) {
             Toast.makeText(getContext(), getString(R.string.board_correct), Toast.LENGTH_SHORT).show();
             //update point for game 3
-            FirebaseHelper.getInstance().getUserDao().updateGamePoint(3,
-                    Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime));
+            long time = Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime);
+            FirebaseHelper.getInstance().getUserDao().updateGamePoint(3, time);
         } else {
             Toast.makeText(getContext(), getString(R.string.board_incorrect), Toast.LENGTH_SHORT).show();
         }
@@ -212,12 +212,12 @@ public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayB
 
     public void onShowInstructionsButtonClicked() {
         DialogInstruction dialogInstruction = DialogInstruction.newInstance(R.layout.dialog_instruction_sudoku);
-        dialogInstruction.show(getChildFragmentManager(),"instruction");
+        dialogInstruction.show(getChildFragmentManager(), "instruction");
     }
 
     public void onFragmentInteraction(int groupId, int cellId, View view) {
 
-        if(mStartTime == 0){
+        if (mStartTime == 0) {
             mStartTime = System.currentTimeMillis();
         }
 
@@ -225,11 +225,11 @@ public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayB
         clickedGroup = groupId;
         clickedCellId = cellId;
 
-        int row = ((clickedGroup-1)/3)*3 + (clickedCellId/3);
-        int column = ((clickedGroup-1)%3)*3 + ((clickedCellId)%3);
+        int row = ((clickedGroup - 1) / 3) * 3 + (clickedCellId / 3);
+        int column = ((clickedGroup - 1) % 3) * 3 + ((clickedCellId) % 3);
 
         if (!isStartPiece(groupId, cellId)) {
-            int number = TextUtils.isEmpty(clickedCell.getText().toString())?1:Integer.parseInt(clickedCell.getText().toString());
+            int number = TextUtils.isEmpty(clickedCell.getText().toString()) ? 1 : Integer.parseInt(clickedCell.getText().toString());
             ChooseNumberDiaglogFragment chooseNumber = ChooseNumberDiaglogFragment.newInstance(number, false);
             chooseNumber.setCallback(new ChooseNumberDiaglogFragment.Callback() {
                 @Override
@@ -257,7 +257,7 @@ public class SudokuGamePlayFragment extends BaseFragment<FragmentSudokuGamePlayB
                     binding.buttonCheckBoard.setVisibility(View.INVISIBLE);
                 }
             });
-            chooseNumber.show(getChildFragmentManager(),"chooseNumber");
+            chooseNumber.show(getChildFragmentManager(), "chooseNumber");
         } else {
             Toast.makeText(getContext(), getString(R.string.start_piece_error), Toast.LENGTH_SHORT).show();
         }

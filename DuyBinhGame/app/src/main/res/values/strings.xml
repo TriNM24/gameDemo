@@ -13,6 +13,7 @@
 
     <string name="menu_setting_edit">Edit</string>
     <string name="menu_save">Save</string>
+    <string name="menu_logout">Logout</string>
     <!-- Strings used for fragments for navigation -->
     <string name="title_activity_caro_game">Caro Game</string>
     <string name="caro_game_com_vs_human_fragment_label">Computer Vs Human</string>
@@ -20,8 +21,7 @@
     <string name="title_activity_memory_game">Memory Game</string>
     <string name="memory_game_shuffle">Shuffle</string>
 
-    <string name="instructions_game_memory">Choose Two cards to flip over, if the images are the same you get a point, if not the images flip back over.
-    You must correctly choose the correct images within a certain amount of turns</string>
+    <string name="instructions_game_memory">1. Choose Two cards to flip over, if the images are the same you get a point, if not the images flip back over.\n2. You must correctly choose the correct images within a certain amount of turns.</string>
 
     <!--sudoku game start-->
     <string name="sudoku_game_title">Sudoku game</string>
@@ -46,6 +46,10 @@
     <string name="instructions_1">1. In Sudoku it is intended to place all the remaining pieces on the board. The numbers range from 1 to 9 (in 9x9 Sudoku).</string>
     <string name="instructions_2">2. The board is separated into several squares, and inside each of them it is only allowed to place one of each number.</string>
     <string name="instructions_3">3. It is only allowed to place one of each number at each row, both horizontal and vertical.</string>
+
+    <string name="instruction_caro1">1. Once a player places a symbol on the board, the symbol cannot be moved or changed.</string>
+    <string name="instruction_caro2">2. The player that manages to create five in a row first wins the round.</string>
+    <string name="instruction_caro3">3. The row can be horizontal, vertical, or diagonal as long as it is unbroken.</string>
 
     <string name="add_new_board">Add new board</string>
     <string name="continue_new_save_board">Save</string>
@@ -75,7 +79,7 @@
     <string name="setting_best_score_game1">Game1: %s seconds</string>
     <string name="setting_best_score_game2">Game2: %s seconds</string>
     <string name="setting_best_score_game3">Game3: %s seconds</string>
-    <string name="setting_best_score_game4">Game4: %s seconds</string>
+    <string name="setting_best_score_game4">Game4: %s points</string>
 
     <string name="title_activity_top_player">Top Players</string>
     <string name="tab_text_1">Caro</string>
@@ -83,10 +87,14 @@
     <string name="tab_text_3">Sudoku</string>
     <string name="tab_text_4">Defend</string>
     <string name="top_score">%d seconds</string>
+    <string name="top_score_point">%d points</string>
 
     <string name="shooting_game_title">Shooting game</string>
     <string name="shooting_game_score">Score: %d</string>
     <string name="shooting_game_remain">Remain: %d</string>
+
+    <string name="alert_win">You win!\nTime to win this game is %d seconds.</string>
+    <string name="alert_game_4_out">Your current point is %d.\nDo you want continue?</string>
     <!--sudoku game end-->
 
 </resources>

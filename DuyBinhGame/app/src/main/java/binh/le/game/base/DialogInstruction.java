@@ -28,6 +28,7 @@ public class DialogInstruction extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.Dialog);
     }
 
     @Override

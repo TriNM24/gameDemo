@@ -60,7 +60,7 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
         switch (item.getItemId()) {
             case R.id.menu_information:
                 DialogInstruction dialogInstruction = DialogInstruction.newInstance(R.layout.dialog_memory_game_instruction);
-                dialogInstruction.show(getSupportFragmentManager(),"instruction");
+                dialogInstruction.show(getSupportFragmentManager(), "instruction");
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -93,7 +93,7 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(mStartTime == 0){
+        if (mStartTime == 0) {
             mStartTime = System.currentTimeMillis();
         }
         checkGame(view, position);
@@ -113,12 +113,9 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
             ObjectAnimator flip = ObjectAnimator.ofFloat(card, "rotationY", 0f, 180f);
             flip.setDuration(250);
             flip.start();
-            new Handler(getMainLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ((ImageView) card).setImageResource(gameArray[position]);
-                    ((ImageView) card).setTag(gameArray[position]);
-                }
+            new Handler(getMainLooper()).postDelayed((Runnable) () -> {
+                ((ImageView) card).setImageResource(gameArray[position]);
+                ((ImageView) card).setTag(gameArray[position]);
             }, 250);
 
 
@@ -160,7 +157,11 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
                         pointCounter += 1;
                         if (pointCounter >= 10) {
                             binding.pointCounter.setText("You Win!");
+                            //update point for game 2
+                            long time = Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime);
+                            FirebaseHelper.getInstance().getUserDao().updateGamePoint(2, time);
                             won = true;
+                            Utils.showAlertDialog(MemoryGameActivity.this, getString(R.string.game2_name), getString(R.string.alert_win, time));
                         } else {
                             binding.pointCounter.setText("Points: " + pointCounter);
                         }
@@ -216,9 +217,10 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
         } else {
             if (pointCounter >= 10) {
                 Toast.makeText(this, "You Win!!", Toast.LENGTH_SHORT).show();
-                //update point for game 2
-                FirebaseHelper.getInstance().getUserDao().updateGamePoint(2,
-                        Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime));
+                long time = Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime);
+                FirebaseHelper.getInstance().getUserDao().updateGamePoint(2, time);
+                won = true;
+                Utils.showAlertDialog(MemoryGameActivity.this, getString(R.string.game2_name), getString(R.string.alert_win, time));
             } else {
                 Toast.makeText(this, "Score 1 point to shuffle", Toast.LENGTH_SHORT).show();
             }

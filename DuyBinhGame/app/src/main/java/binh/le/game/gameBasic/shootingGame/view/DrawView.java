@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import binh.le.game.R;
 import binh.le.game.firebase.FirebaseHelper;
+import binh.le.game.gameBasic.shootingGame.ShootingActivity;
 
 public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -32,11 +33,13 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
     ArrayList<Explosion> explosions;
     Cannon cannon;
     AndroidGuy androidGuy;
-    Score score;
+    public Score score;
 
-    int mMaximumMiss = 10;
+    int mMaximumMiss = 1;
 
     Paint mPaint;
+
+    SurfaceHolder mHolder;
 
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -76,6 +79,7 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
         drawviewthread = new DrawViewThread(holder);
         drawviewthread.setRunning(true);
         drawviewthread.start();
+        mHolder = holder;
     }
 
     @Override
@@ -112,7 +116,6 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
             Canvas canvas = null;
 
             while (threadIsRunning) {
-
                 try {
                     canvas = surfaceHolder.lockCanvas(null);
                     synchronized (surfaceHolder) {
@@ -126,13 +129,6 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
                         surfaceHolder.unlockCanvasAndPost(canvas);
                 }
             }
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(mContext, mContext.getString(R.string.shooting_game_score, score.getScore()), Toast.LENGTH_SHORT).show();
-                    FirebaseHelper.getInstance().getUserDao().updateGamePoint(4,score.getScore());
-                }
-            });
         }
     }
 
@@ -202,6 +198,8 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
                 missedGuy.incrementMissed();
                 if (missedGuy.getMissed() >= mMaximumMiss) {
                     stopGame();
+                    new Handler(Looper.getMainLooper()).post(() -> ((ShootingActivity)mContext).gameOver());
+
                 }
             }
         }
@@ -231,9 +229,12 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void resumeGame() {
-        if (drawviewthread != null) {
+        /*if (drawviewthread != null) {
             drawviewthread.setRunning(true);
-        }
+        }*/
+        drawviewthread = new DrawViewThread(mHolder);
+        drawviewthread.setRunning(true);
+        drawviewthread.start();
     }
 
     public void releaseResources() {

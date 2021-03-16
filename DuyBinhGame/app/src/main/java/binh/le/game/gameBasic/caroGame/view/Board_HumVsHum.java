@@ -2,7 +2,6 @@ package binh.le.game.gameBasic.caroGame.view;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,7 +15,7 @@ import android.view.WindowManager;
 import binh.le.game.R;
 
 public class Board_HumVsHum extends View {
-    private int m = 40, n = 40; // Khởi tạo số ô cờ
+    private int m = 18, n = 18; // Khởi tạo số ô cờ
 
     public Boolean firstPlayerX = false;
 
@@ -47,6 +46,7 @@ public class Board_HumVsHum extends View {
                 this.arr[i][j] = empty_cell;
             }
         }
+        invalidate();
     }
 
     public Board_HumVsHum(Context context, AttributeSet attrs) {
@@ -75,17 +75,10 @@ public class Board_HumVsHum extends View {
         int height = displayMetric.heightPixels;// Độ cao màn hình
 
         // Màn hình máy to
-        if (height / m < width / n) {
-            grid_size = width / n;
-        }
-        // Màn hình máy nhỏ
-        else if (width / n > height / m) {
-            grid_size = height / m;
-
-        }
+        grid_size = height / n;
         System.out.println("Tính: " + "m= " + m + "; n= " + n);
-        n = width / (width / n);
-        m = height / (grid_size);
+        m = width / grid_size;
+        n = height / grid_size;
         System.out.println("Giá trị sau vẽ : " + "m= " + m + "; n= " + n + "grid_sze" + grid_size);
         grid_width = m;
         grid_height = n;
@@ -129,6 +122,46 @@ public class Board_HumVsHum extends View {
         }
     }
 
+    private void showConfirmRetake(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Caro game");
+        builder.setIcon(R.drawable.warning);
+        builder.setMessage("Wrong move, please move again!");
+        builder.setNegativeButton("OK", (dialog, which) -> dialog.cancel());
+        builder.create().show();
+    }
+
+    private void showWinner(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Cờ caro");
+        builder.setIcon(R.drawable.congra);
+        if (playerTurn == 0) {// Người đầu tiên đánh
+            if (firstPlayerX == true) {// Trường hợp người đầu tiên đánh "X"
+                builder.setMessage("!!!!!!    Congratulation O player    !!!!!!");
+            }
+            if (firstPlayerX == false) {
+                builder.setMessage("!!!!!!    Congratulation X player    !!!!!!");
+            }
+        } else if (playerTurn == 1) {
+            if (firstPlayerX == true) {
+                builder.setMessage("!!!!!!    Congratulation X player    !!!!!!");
+            }
+            if (firstPlayerX == false) {
+                builder.setMessage("!!!!!!    Congratulation O player    !!!!!!");
+            }
+        }
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            final AlertDialog.Builder newbuilder = new AlertDialog.Builder(getContext());
+            newbuilder.setTitle("New game");
+            newbuilder.setMessage("Do you want start new game?");
+            newbuilder.setIcon(R.drawable.newgame);
+
+            newbuilder.setPositiveButton("Yes", (dialog1, which1) -> clear());
+            newbuilder.setNegativeButton("No", (dialog12, id) -> dialog12.cancel());
+            newbuilder.create().show();
+        });
+        builder.create().show();
+    }
 
     // Đi 1 nước
     @Override
@@ -168,18 +201,7 @@ public class Board_HumVsHum extends View {
                         playerTurn = 0;
                     }
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Cờ caro");
-                    builder.setIcon(R.drawable.warning);
-                    builder.setMessage("Đánh sai xin mời đánh lại");
-                    builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-
-                        }
-                    });
-                    builder.create().show();
+                    showConfirmRetake();
                 }
 
                 // Hàng và cột của điểm được chọn là hang,cot
@@ -203,49 +225,8 @@ public class Board_HumVsHum extends View {
                     index++;
                 }
                 if (dem >= 5) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Cờ caro");
-                    builder.setIcon(R.drawable.congra);
-                    if (playerTurn == 0) {// Người đầu tiên đánh
-                        if (firstPlayerX == true) {// Trường hợp người đầu tiên đánh "X"
-                            builder.setMessage("!!!!!!    Chúc mừng O thắng    !!!!!!");
-                        }
-                        if (firstPlayerX == false) {
-                            builder.setMessage("!!!!!!    Chúc mừng X thắng    !!!!!!");
-                        }
-                    } else if (playerTurn == 1) {
-                        if (firstPlayerX == true) {
-                            builder.setMessage("!!!!!!    Chúc mừng X thắng    !!!!!!");
-                        }
-                        if (firstPlayerX == false) {
-                            builder.setMessage("!!!!!!    Chúc mừng O thắng    !!!!!!");
-                        }
-                    }
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            final AlertDialog.Builder newbuilder = new AlertDialog.Builder(getContext());
-                            newbuilder.setTitle("New game");
-                            newbuilder.setMessage("Bạn có muốn tạo game mới không ?");
-                            newbuilder.setIcon(R.drawable.newgame);
-
-                            newbuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    clear();
-                                }
-                            });
-                            newbuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-                            newbuilder.create().show();
-                        }
-                    });
-                    builder.create().show();
+                    showWinner();
                 }
-
 
                 // Kiểm tra hàng dọc
                 dem = 1;
@@ -260,31 +241,7 @@ public class Board_HumVsHum extends View {
                     index++;
                 }
                 if (dem >= 5) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Cờ caro");
-                    builder.setIcon(R.drawable.congra);
-                    if (playerTurn == 0) {// Người đầu tiên đánh
-                        if (firstPlayerX == true) {// Trường hợp người đầu tiên đánh "X"
-                            builder.setMessage("!!!!!!    Chúc mừng O thắng    !!!!!!");
-                        }
-                        if (firstPlayerX == false) {
-                            builder.setMessage("!!!!!!    Chúc mừng X thắng    !!!!!!");
-                        }
-                    } else if (playerTurn == 1) {
-                        if (firstPlayerX == true) {
-                            builder.setMessage("!!!!!!    Chúc mừng X thắng    !!!!!!");
-                        }
-                        if (firstPlayerX == false) {
-                            builder.setMessage("!!!!!!    Chúc mừng O thắng    !!!!!!");
-                        }
-                    }
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.create().show();
+                    showWinner();
                 }
 
                 // Kiểm tra đường chéo
@@ -300,32 +257,7 @@ public class Board_HumVsHum extends View {
                     index++;
                 }
                 if (dem >= 5) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Cờ caro");
-                    builder.setIcon(R.drawable.congra);
-                    if (playerTurn == 0) {// Người đầu tiên đánh
-                        if (firstPlayerX == true) {// Trường hợp người đầu tiên đánh "X"
-                            builder.setMessage("!!!!!!    Chúc mừng O thắng    !!!!!!");
-                        }
-                        if (firstPlayerX == false) {
-                            builder.setMessage("!!!!!!    Chúc mừng X thắng    !!!!!!");
-
-                        }
-                    } else if (playerTurn == 1) {
-                        if (firstPlayerX == true) {
-                            builder.setMessage("!!!!!!    Chúc mừng X thắng    !!!!!!");
-                        }
-                        if (firstPlayerX == false) {
-                            builder.setMessage("!!!!!!    Chúc mừng O thắng    !!!!!!");
-                        }
-                    }
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.create().show();
+                    showWinner();
                 }
 
 
@@ -342,31 +274,7 @@ public class Board_HumVsHum extends View {
                     index++;
                 }
                 if (dem >= 5) {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Cờ caro");
-                    builder.setIcon(R.drawable.congra);
-                    if (playerTurn == 0) {// Người đầu tiên đánh
-                        if (firstPlayerX == true) {// Trường hợp người đầu tiên đánh "X"
-                            builder.setMessage("!!!!!!    Chúc mừng O thắng    !!!!!!");
-                        }
-                        if (firstPlayerX == false) {
-                            builder.setMessage("!!!!!!    Chúc mừng X thắng    !!!!!!");
-                        }
-                    } else if (playerTurn == 1) {
-                        if (firstPlayerX == true) {
-                            builder.setMessage("!!!!!!    Chúc mừng X thắng    !!!!!!");
-                        }
-                        if (firstPlayerX == false) {
-                            builder.setMessage("!!!!!!    Chúc mừng O thắng    !!!!!!");
-                        }
-                    }
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.create().show();
+                    showWinner();
                 }
 
 

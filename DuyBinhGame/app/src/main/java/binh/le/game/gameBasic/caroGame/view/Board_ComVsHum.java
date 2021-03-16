@@ -5,20 +5,26 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Insets;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowInsets;
 import android.view.WindowManager;
+import android.view.WindowMetrics;
 
 import binh.le.game.R;
 import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.ultis.Utils;
 
 public class Board_ComVsHum extends View {
-    private int m = 40, n = 40; // Khởi tạo số ô cờ
+    private int m = 18, n = 18; // Khởi tạo số ô cờ
     public Boolean firstPlayerX = false;// X đánh
     private static int empty_cell = 0;
     private static int x_cell = 1;
@@ -61,7 +67,6 @@ public class Board_ComVsHum extends View {
         // Lấy kích thước của màn hình
         System.err.println("get window size MultiBoardChess");
         ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(displayMetric);
-        //((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetric);
         System.err.println("done get window size MultiBoardChess");
         int width = displayMetric.widthPixels;// Hiển thị số liệu độ rộng trên màn hình
         int height = displayMetric.heightPixels;// Hiển thị số liệu độ cao màn hình
@@ -70,18 +75,11 @@ public class Board_ComVsHum extends View {
         // Kích thước thiết bị
         // Chia cho số ô cờ để tính được kích thước ô cờ
         // số ô cờ là m
+        grid_size = height / n;
 
-        if (height / m < width / n) {
-            grid_size = width / n;
-        }
-        // Màn hình máy nhỏ
-        else if (width / n > height / m) {
-            grid_size = height / m;
-
-        }
         System.out.println("Tính: " + "m= " + m + "; n= " + n);
-        n = width / (width / n);
-        m = height / (grid_size);
+        m = width / grid_size;
+        n = height / grid_size;
         System.out.println("Giá trị sau vẽ : " + "m= " + m + "; n= " + n + "grid_sze" + grid_size);
         grid_width = m;
         grid_height = n;
@@ -114,7 +112,6 @@ public class Board_ComVsHum extends View {
                     paint.setColor(Color.BLUE);// set màu của ô cờ O
                     cell_char = "O";
                 }
-//                System.err.println("draw one cell of the board MultiBoardChess");
                 //Fill rectangle
                 paint.setTextSize(grid_size / 2);
                 paint.setStyle(Paint.Style.FILL);
@@ -143,35 +140,54 @@ public class Board_ComVsHum extends View {
         invalidate();
     }
 
-    public void showWinDialog(boolean humWin){
-        if(humWin) {
+    private void showConfirmRetake(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Caro game");
+        builder.setIcon(R.drawable.warning);
+        builder.setMessage("Wrong move, please move again!");
+        builder.setNegativeButton("OK", (dialog, which) -> dialog.cancel());
+        builder.create().show();
+    }
+
+    public void showWinDialog(boolean humWin) {
+        if (humWin) {
+
+            long time = Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime);
+
             final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Cờ caro");
+            builder.setTitle("Caro game");
             builder.setIcon(R.drawable.congra);
-            builder.setMessage("Người đã chiến thắng máy");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    clear();
-                    dialog.cancel();
-                }
+            builder.setMessage(this.getContext().getString(R.string.alert_win, time));
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                final AlertDialog.Builder newbuilder = new AlertDialog.Builder(getContext());
+                newbuilder.setTitle("New game");
+                newbuilder.setMessage("Do you want start new game?");
+                newbuilder.setIcon(R.drawable.newgame);
+
+                newbuilder.setPositiveButton("Yes", (dialog1, which1) -> clear());
+                newbuilder.setNegativeButton("No", (dialog12, id) -> dialog12.cancel());
+                newbuilder.create().show();
+                dialog.cancel();
             });
             builder.create().show();
             //update point for game 1
-            FirebaseHelper.getInstance().getUserDao().updateGamePoint(1,
-                    Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime));
-        }else{
+            FirebaseHelper.getInstance().getUserDao().updateGamePoint(1, time);
+        } else {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Cờ caro");
+            builder.setTitle("Caro game");
             builder.setIcon(R.drawable.congra);
             //builder.setIcon(R.drawable.images);
-            builder.setMessage("Máy đã chiến thắng người");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    clear();
-                    dialog.cancel();
-                }
+            builder.setMessage("The winner is Computer!");
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                final AlertDialog.Builder newbuilder = new AlertDialog.Builder(getContext());
+                newbuilder.setTitle("New game");
+                newbuilder.setMessage("Do you want start new game?");
+                newbuilder.setIcon(R.drawable.newgame);
+
+                newbuilder.setPositiveButton("Yes", (dialog1, which1) -> clear());
+                newbuilder.setNegativeButton("No", (dialog12, id) -> dialog12.cancel());
+                newbuilder.create().show();
+                dialog.cancel();
             });
             builder.create().show();
         }
@@ -183,7 +199,7 @@ public class Board_ComVsHum extends View {
         int action = event.getActionMasked();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                if(mStartTime == 0){
+                if (mStartTime == 0) {
                     mStartTime = System.currentTimeMillis();
                 }
 
@@ -780,17 +796,7 @@ public class Board_ComVsHum extends View {
                         playerTurn = 0;
                         System.out.println(" Chuyển cho thằng Human đánh");
                     } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle("Cờ caro");
-                        builder.setIcon(R.drawable.warning);
-                        builder.setMessage("Đánh sai xin mời đánh lại");
-                        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                        builder.create().show();
+                        showConfirmRetake();
                     }
                 }
                 break;
