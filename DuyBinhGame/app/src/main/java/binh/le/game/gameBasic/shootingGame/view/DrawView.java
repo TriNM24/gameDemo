@@ -35,11 +35,12 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
     AndroidGuy androidGuy;
     public Score score;
 
-    int mMaximumMiss = 1;
+    int mMaximumMiss = 10;
 
     Paint mPaint;
-
     SurfaceHolder mHolder;
+
+    public boolean isGameOver = false;
 
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -198,8 +199,8 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
                 missedGuy.incrementMissed();
                 if (missedGuy.getMissed() >= mMaximumMiss) {
                     stopGame();
+                    isGameOver = true;
                     new Handler(Looper.getMainLooper()).post(() -> ((ShootingActivity)mContext).gameOver());
-
                 }
             }
         }
@@ -235,6 +236,7 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
         drawviewthread = new DrawViewThread(mHolder);
         drawviewthread.setRunning(true);
         drawviewthread.start();
+        isGameOver = false;
     }
 
     public void releaseResources() {

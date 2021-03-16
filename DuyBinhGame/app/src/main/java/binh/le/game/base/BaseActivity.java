@@ -57,7 +57,6 @@ public abstract class BaseActivity<BD extends ViewDataBinding> extends AppCompat
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_information:
-                Toast.makeText(this, "show information", Toast.LENGTH_SHORT).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);

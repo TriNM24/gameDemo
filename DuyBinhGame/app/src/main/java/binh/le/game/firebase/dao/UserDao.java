@@ -109,7 +109,7 @@ public class UserDao {
                             liveData.addSource(sendVerifyEmai(user), authResultTask -> {
                                 liveData.setValue(authResultTask);
                             });
-                        }else{
+                        } else {
                             liveData.setValue(task);
                         }
                     }
@@ -231,7 +231,7 @@ public class UserDao {
         return result;
     }
 
-    public void updateUserName(String userName){
+    public void updateUserName(String userName) {
         String uid = mAuth.getCurrentUser().getUid();
         firebase.getReference(Constants.USER_PATH).child(uid)
                 .child(Constants.User.NAME).setValue(userName);
@@ -331,23 +331,23 @@ public class UserDao {
         return liveData;
     }
 
-    public LiveData<List<User>> getTopUsers(int game){
+    public LiveData<List<User>> getTopUsers(int game) {
         MediatorLiveData<List<User>> result = new MediatorLiveData<>();
         String orderChild;
-        switch (game){
-            case 1:{
+        switch (game) {
+            case 1: {
                 orderChild = Constants.User.SCORE_GAME1;
                 break;
             }
-            case 2:{
+            case 2: {
                 orderChild = Constants.User.SCORE_GAME2;
                 break;
             }
-            case 3:{
+            case 3: {
                 orderChild = Constants.User.SCORE_GAME3;
                 break;
             }
-            case 4:{
+            case 4: {
                 orderChild = Constants.User.SCORE_GAME4;
                 break;
             }
@@ -355,14 +355,15 @@ public class UserDao {
                 orderChild = Constants.User.SCORE_GAME1;
         }
         firebase.getReference(Constants.USER_PATH).orderByChild(orderChild)
+                .startAt(1, orderChild)
                 .limitToLast(10)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.getValue() != null){
+                        if (dataSnapshot.getValue() != null) {
                             List<User> users = FirebaseUtils.getListValue(dataSnapshot, User.class);
                             result.setValue(users);
-                        }else{
+                        } else {
                             result.setValue(new ArrayList<>());
                         }
                     }
@@ -375,7 +376,7 @@ public class UserDao {
         return result;
     }
 
-    public void keepSyncedData(){
+    public void keepSyncedData() {
         firebase.getReference(Constants.USER_PATH).keepSynced(true);
     }
 }

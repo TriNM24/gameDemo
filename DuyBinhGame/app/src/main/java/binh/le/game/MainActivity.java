@@ -69,6 +69,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         super.onResume();
         startService(intentMusicBg);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(currentUser == null) return;
         Uri photoUrl = currentUser.getPhotoUrl();
         if(photoUrl != null){
             Picasso.get().load(photoUrl).placeholder(R.drawable.img_default_account).fit().into(binding.imgUser);

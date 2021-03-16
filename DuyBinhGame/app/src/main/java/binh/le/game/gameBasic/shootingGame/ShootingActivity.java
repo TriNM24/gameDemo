@@ -1,6 +1,7 @@
 package binh.le.game.gameBasic.shootingGame;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,8 +11,10 @@ import android.widget.Toast;
 
 import binh.le.game.R;
 import binh.le.game.base.BaseActivity;
+import binh.le.game.base.DialogInstruction;
 import binh.le.game.databinding.ActivityShootTheGuyBinding;
 import binh.le.game.firebase.FirebaseHelper;
+import binh.le.game.gameBasic.memoryGame.MemoryGameActivity;
 import binh.le.game.gameBasic.shootingGame.view.SoundEffects;
 import binh.le.game.ultis.Utils;
 
@@ -76,42 +79,50 @@ public class ShootingActivity extends BaseActivity<ActivityShootTheGuyBinding> {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_sound) {
-            if (play_music) {
-                player.pause();
-                play_music = false;
-                menu.findItem(R.id.action_sound).setIcon(R.drawable.ic_volume_up_white_24dp);
-            } else {
-                player.start();
-                play_music = true;
-                menu.findItem(R.id.action_sound).setIcon(R.drawable.ic_volume_off_white_24dp);
-            }
+        switch (id){
+            case R.id.action_sound:
+                if (play_music) {
+                    player.pause();
+                    play_music = false;
+                    menu.findItem(R.id.action_sound).setIcon(R.drawable.ic_volume_up_white_24dp);
+                } else {
+                    player.start();
+                    play_music = true;
+                    menu.findItem(R.id.action_sound).setIcon(R.drawable.ic_volume_off_white_24dp);
+                }
+                break;
+            case R.id.menu_information:
+                DialogInstruction.newInstance(R.layout.dialog_instruction_shooting).show(getSupportFragmentManager(),"caro_instruction");
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         if(isHaveBackMenu()) {
-            binding.drawView.stopGame();
-            Utils.showConfirmDialog(ShootingActivity.this,getString(R.string.game4_name),
-                    getString(R.string.alert_game_4_out, binding.drawView.score.getScore()), (dialog, which) -> {
-                        if(which == AlertDialog.BUTTON_POSITIVE){
-                            dialog.dismiss();
-                            binding.drawView.resumeGame();
-                        }else{
-                            FirebaseHelper.getInstance().getUserDao().updateGamePoint(4,binding.drawView.score.getScore());
-                            finish();
-                            overridePendingTransition(R.anim.slide_left_enter, R.anim.slide_right_exit);
-                        }
-                    });
+            if(!binding.drawView.isGameOver) {
+                binding.drawView.stopGame();
+                Utils.showConfirmDialog(ShootingActivity.this, getString(R.string.game4_name),
+                        getString(R.string.alert_game_4_out, binding.drawView.score.getScore()), (dialog, which) -> {
+                            if (which == AlertDialog.BUTTON_POSITIVE) {
+                                dialog.dismiss();
+                                binding.drawView.resumeGame();
+                            } else {
+                                FirebaseHelper.getInstance().getUserDao().updateGamePoint(4, binding.drawView.score.getScore());
+                                finish();
+                                overridePendingTransition(R.anim.slide_left_enter, R.anim.slide_right_exit);
+                            }
+                        });
+            }
         }
         return true;
     }
 
     public void gameOver(){
-        Toast.makeText(this, "aaaaaaaaaa", Toast.LENGTH_SHORT).show();
+        FirebaseHelper.getInstance().getUserDao().updateGamePoint(4, binding.drawView.score.getScore());
+        Utils.showAlertDialog(ShootingActivity.this, getString(R.string.game4_name),
+                getString(R.string.alert_game_4_game_over, binding.drawView.score.getScore()));
     }
 
     @Override
@@ -140,13 +151,11 @@ public class ShootingActivity extends BaseActivity<ActivityShootTheGuyBinding> {
     }
 
     public void onClick(View v) {
-
         // Using the View's ID to distinguish which button was clicked
         switch (v.getId()) {
             case R.id.moveLeftButton:
                 binding.drawView.moveCannonLeft();
                 break;
-
             case R.id.moveRightButton:
                 binding.drawView.moveCannonRight();
                 break;

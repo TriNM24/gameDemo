@@ -1,24 +1,20 @@
 package binh.le.game.ultis;
 
-import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import binh.le.game.R;
 
 public class Utils {
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
@@ -39,7 +35,7 @@ public class Utils {
     }
 
     public static void showConfirmDialog(Context context, String title, String message, DialogInterface.OnClickListener listener) {
-        AlertDialog alertDialog = new AlertDialog.Builder(context, R.style.ConfirmTheme).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
 
@@ -67,7 +63,6 @@ public class Utils {
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(in, null, options);
             in.close();
-
 
             int scale = 1;
             while ((options.outWidth * options.outHeight) * (1 / Math.pow(scale, 2)) >

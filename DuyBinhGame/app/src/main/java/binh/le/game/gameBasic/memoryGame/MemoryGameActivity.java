@@ -25,7 +25,7 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
         implements AdapterView.OnItemClickListener {
     private int pointCounter;
     public long totalTime = 181000;
-    private boolean won;
+    private boolean mIsWon;
     ArrayList<ImageView> activeCards;
     Integer[] gameArray;
     ImageAdapter adapter;
@@ -66,14 +66,11 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    protected void subscribeUi() {
-        binding.setAction(this);
+    public void initGame(){
         adapter = new ImageAdapter(this, true);
         gameArray = adapter.getArray();
         binding.gameLayout.setAdapter(adapter);
-        won = false;
+        mIsWon = false;
         activeCards = new ArrayList<>();
         pointCounter = 0;
         binding.pointCounter.setText("Points: " + pointCounter);
@@ -83,6 +80,12 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
             binding.gameLayout.getAdapter().getView(i, null, binding.gameLayout).setTag(R.drawable.placeholder);
             ((ImageView) binding.gameLayout.getAdapter().getView(i, null, binding.gameLayout)).setImageResource(R.drawable.placeholder);
         }
+    }
+
+    @Override
+    protected void subscribeUi() {
+        binding.setAction(this);
+        initGame();
         binding.gameLayout.setOnItemClickListener(this);
     }
 
@@ -149,7 +152,6 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
                             activeCards.get(0).setImageResource(R.drawable.placeholder);
                             activeCards.get(0).setTag(R.drawable.placeholder);
                             activeCards.remove(0);
-
                         }
                     }
                     //Player choose correct two cards
@@ -160,7 +162,8 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
                             //update point for game 2
                             long time = Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime);
                             FirebaseHelper.getInstance().getUserDao().updateGamePoint(2, time);
-                            won = true;
+                            mIsWon = true;
+                            binding.shuffleButton.setText(getString(R.string.memory_game_new_game));
                             Utils.showAlertDialog(MemoryGameActivity.this, getString(R.string.game2_name), getString(R.string.alert_win, time));
                         } else {
                             binding.pointCounter.setText("Points: " + pointCounter);
@@ -186,43 +189,47 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
     }
 
     public void shuffleGame() {
-        int size = checkMarkIndexes.size();
-        if (pointCounter > 0 && pointCounter < 10) {
-            Integer[] newArray = new Integer[20];
-            int index = 0;
+        if(mIsWon){
+            binding.shuffleButton.setText(getString(R.string.memory_game_shuffle));
+            initGame();
+        }else {
+            int size = checkMarkIndexes.size();
+            if (pointCounter > 0 && pointCounter < 10) {
+                Integer[] newArray = new Integer[20];
+                int index = 0;
 
-            ArrayList<Integer> gameArrayList = new ArrayList<>(Arrays.asList(gameArray));
+                ArrayList<Integer> gameArrayList = new ArrayList<>(Arrays.asList(gameArray));
 
-            for (Integer checkMarkIndex : checkMarkIndexes) {
-                newArray[index] = gameArray[checkMarkIndex];
-                gameArrayList.set(checkMarkIndex.intValue(), -1);
-                index++;
-            }
-            //Second passthrough looking for unknown images
-            for (Integer j : gameArrayList) {
-//
-                if (j.intValue() != -1) {
-                    newArray[index] = j;
+                for (Integer checkMarkIndex : checkMarkIndexes) {
+                    newArray[index] = gameArray[checkMarkIndex];
+                    gameArrayList.set(checkMarkIndex.intValue(), -1);
                     index++;
                 }
+                //Second passthrough looking for unknown images
+                for (Integer j : gameArrayList) {
+//
+                    if (j.intValue() != -1) {
+                        newArray[index] = j;
+                        index++;
+                    }
 
-            }
-            gameArray = newArray;
-            ((ImageAdapter) binding.gameLayout.getAdapter()).updateAdapter(newArray, size);
-            for (int i = 0; i < (pointCounter * 2); i++) {
-                checkMarkIndexes.set(i, i);
-            }
-
-
-        } else {
-            if (pointCounter >= 10) {
-                Toast.makeText(this, "You Win!!", Toast.LENGTH_SHORT).show();
-                long time = Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime);
-                FirebaseHelper.getInstance().getUserDao().updateGamePoint(2, time);
-                won = true;
-                Utils.showAlertDialog(MemoryGameActivity.this, getString(R.string.game2_name), getString(R.string.alert_win, time));
+                }
+                gameArray = newArray;
+                ((ImageAdapter) binding.gameLayout.getAdapter()).updateAdapter(newArray, size);
+                for (int i = 0; i < (pointCounter * 2); i++) {
+                    checkMarkIndexes.set(i, i);
+                }
             } else {
-                Toast.makeText(this, "Score 1 point to shuffle", Toast.LENGTH_SHORT).show();
+                if (pointCounter >= 10) {
+                    Toast.makeText(this, "You Win!!", Toast.LENGTH_SHORT).show();
+                    long time = Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime);
+                    FirebaseHelper.getInstance().getUserDao().updateGamePoint(2, time);
+                    mIsWon = true;
+                    binding.shuffleButton.setText(getString(R.string.memory_game_new_game));
+                    Utils.showAlertDialog(MemoryGameActivity.this, getString(R.string.game2_name), getString(R.string.alert_win, time));
+                } else {
+                    Toast.makeText(this, "Score 1 point to shuffle", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

@@ -1,14 +1,11 @@
 package binh.le.game;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.lifecycle.LifecycleOwner;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+
+import androidx.core.app.ActivityOptionsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,7 +15,6 @@ import binh.le.game.databinding.ActivitySplashScreenBinding;
 import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.firebase.dao.UserDao;
 import binh.le.game.login.LoginActivity;
-import binh.le.game.ultis.SharePrefUtils;
 
 public class SplashScreenActivity extends BaseActivity<ActivitySplashScreenBinding> {
 

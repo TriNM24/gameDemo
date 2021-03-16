@@ -11,7 +11,7 @@ import android.graphics.Paint;
 public class Cannon {
     float x = -1; // Cannon's center (x,y)
     float y = -1;
-    float stepX = 15; // Cannon's step in  x direction
+    float stepX = 30; // Cannon's step in  x direction
     int lowerX, lowerY, upperX, upperY;
     private Paint paint; // The paint style, color used for drawing
 
@@ -21,9 +21,7 @@ public class Cannon {
     public Cannon(int color, Context c) {
         paint = new Paint();
         paint.setColor(color);
-
         mContext = c;
-
     }
 
     public void setBounds(int lx, int ly, int ux, int uy) {
@@ -40,7 +38,7 @@ public class Cannon {
         // Get new (x,y) position of the canvas by moving it left
         // when the left button is clicked. Ensure that it does not
         // move off the screen.
-        if (x - 30 > 0) {
+        if (x - 40 > 0) {
             x -= stepX;
         }
     }
@@ -49,7 +47,7 @@ public class Cannon {
         // Get new (x,y) position of the canvas by moving it right
         // when the right button is clicked. Ensure that it does not
         // move off the screen.
-        if (x + 30 < upperX) {
+        if (x + 40 < upperX) {
             x += stepX;
         }
     }
@@ -61,7 +59,7 @@ public class Cannon {
     // Draw the cannon on the canvas
     public void draw(Canvas canvas) {
         canvas.drawLine(x, y - 100, x, y, paint);
-        canvas.drawRect(x - 30, y - 10, x + 30, y, paint);
-        canvas.drawRect(x - 10, y - 40, x + 10, y, paint);
+        canvas.drawRect(x - 40, y - 20, x + 40, y, paint);
+        canvas.drawRect(x - 10, y - 50, x + 10, y, paint);
     }
 }
