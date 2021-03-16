@@ -67,7 +67,6 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                         processResult(authResultTask);
                         if (loadingDialog != null) {
                             loadingDialog.dismissAllowingStateLoss();
-                            loadingDialog = null;
                         }
                     });
         } else {
