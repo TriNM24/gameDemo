@@ -3,7 +3,10 @@ package binh.le.game;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -14,6 +17,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import binh.le.game.base.BaseActivity;
+import binh.le.game.base.DialogInstruction;
 import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.gameBasic.caroGame.CaroGameActivity;
 import binh.le.game.databinding.ActivityMainBinding;
@@ -36,6 +41,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     Intent intentMusicBg;
 
     ActionBarDrawerToggle mDrawerToggle;
+
+    private boolean play_music = true;
+    Menu menu;
 
     @Override
     protected int getLayoutID() {
@@ -73,7 +81,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
     private void setupNavigationView() {
         mDrawerToggle = new ActionBarDrawerToggle(this,
-                binding.drawerLayout, R.string.drawer_open, R.string.drawer_close){
+                binding.drawerLayout, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -94,21 +102,77 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         switch (item.getItemId()) {
 
             case R.id.nav_menu_game1: {
-                onClickGame1();
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    onClickGame1();
+                }, 500);
                 break;
             }
             case R.id.nav_menu_game2: {
-                onClickGame2();
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    onClickGame2();
+                }, 500);
                 break;
             }
             case R.id.nav_menu_game3: {
-                onClickGame3();
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    onClickGame3();
+                }, 500);
+                break;
+            }
+            case R.id.nav_menu_top_player: {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    onClickTopPlayer();
+                }, 500);
+                break;
+            }
+            case R.id.nav_menu_setting: {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    openSetting();
+                }, 500);
+                break;
+            }
+            case R.id.nav_menu_logout: {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    logOut();
+                }, 500);
                 break;
             }
         }
         //close navigation drawer
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_app_main, menu);
+
+        this.menu = menu;
+        if (play_music) {
+            menu.findItem(R.id.action_sound).setIcon(R.drawable.ic_volume_off_white_24dp);
+        } else {
+            menu.findItem(R.id.action_sound).setIcon(R.drawable.ic_volume_up_white_24dp);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sound:
+                if (play_music) {
+                    play_music = false;
+                    stopService(intentMusicBg);
+                    menu.findItem(R.id.action_sound).setIcon(R.drawable.ic_volume_up_white_24dp);
+                } else {
+                    play_music = true;
+                    startService(intentMusicBg);
+                    menu.findItem(R.id.action_sound).setIcon(R.drawable.ic_volume_off_white_24dp);
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -120,7 +184,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        intentMusicBg = new Intent(MainActivity.this, BackgroundSoundService.class);
+        //intentMusicBg = new Intent(MainActivity.this, BackgroundSoundService.class);
         stopService(intentMusicBg);
     }
 
@@ -134,15 +198,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     protected void onResume() {
         super.onResume();
         startService(intentMusicBg);
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser == null) return;
-        Uri photoUrl = currentUser.getPhotoUrl();
-        if (photoUrl != null) {
-            Picasso.get().load(photoUrl).placeholder(R.drawable.img_default_account).fit().into(binding.imgUser);
-        }
-        String userName = currentUser.getDisplayName();
-        userName = TextUtils.isEmpty(userName) ? currentUser.getEmail() : userName;
-        binding.txtName.setText(userName);
     }
 
     @Override
@@ -179,5 +234,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     public void openSetting() {
         startActivityWithAnimation(new Intent(this, SettingActivity.class));
     }
-
+    public void logOut(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, SplashScreenActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivityWithAnimation(intent);
+        finish();
+    }
 }

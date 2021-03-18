@@ -1,5 +1,6 @@
 package binh.le.game.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -36,5 +37,10 @@ public abstract class BaseFragment <BD extends ViewDataBinding> extends Fragment
             getActivity().setTitle(getActionBarTitle());
         }
         subscribeUi();
+    }
+
+    public void startActivityWithAnimation(Intent intent){
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.slide_right_enter, R.anim.slide_left_exit);
     }
 }

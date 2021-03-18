@@ -1,6 +1,7 @@
 package binh.le.game.firebase.dao;
 
 import android.app.Activity;
+import android.app.Application;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.text.TextUtils;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+import binh.le.game.MyApplication;
+import binh.le.game.R;
 import binh.le.game.firebase.FirebaseHelper;
 import binh.le.game.firebase.FirebaseUtils;
 import binh.le.game.firebase.model.User;
@@ -81,12 +85,84 @@ public class UserDao {
                         }
                     } else {
                         // If sign in with user not found, sign-up new user.
-                        if (task.getException() instanceof FirebaseAuthInvalidUserException &&
+                        /*if (task.getException() instanceof FirebaseAuthInvalidUserException &&
                                 ((FirebaseAuthInvalidUserException) task.getException()).getErrorCode().equals(FirebaseHelper.ERROR_USER_NOT_FOUND)) {
                             liveData.addSource(signUp(email, password, isNeedVerify), liveData::setValue);
                         } else {
                             liveData.setValue(task);
-                        }
+                        }*/
+                        Log.d(TAG, "send fail " + task.getException());
+                        Task<AuthResult> resultTask = new Task<AuthResult>() {
+                            @Override
+                            public boolean isComplete() {
+                                return true;
+                            }
+
+                            @Override
+                            public boolean isSuccessful() {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean isCanceled() {
+                                return false;
+                            }
+
+                            @Nullable
+                            @Override
+                            public AuthResult getResult() {
+                                return null;
+                            }
+
+                            @Nullable
+                            @Override
+                            public <X extends Throwable> AuthResult getResult(@NonNull Class<X> aClass) throws X {
+                                return null;
+                            }
+
+                            @Nullable
+                            @Override
+                            public Exception getException() {
+                                return new Exception(MyApplication.getContext().getString(R.string.message_user_not_exist, email));
+                            }
+
+                            @NonNull
+                            @Override
+                            public Task<AuthResult> addOnSuccessListener(@NonNull OnSuccessListener<? super AuthResult> onSuccessListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @Override
+                            public Task<AuthResult> addOnSuccessListener(@NonNull Executor executor, @NonNull OnSuccessListener<? super AuthResult> onSuccessListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @Override
+                            public Task<AuthResult> addOnSuccessListener(@NonNull Activity activity, @NonNull OnSuccessListener<? super AuthResult> onSuccessListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @Override
+                            public Task<AuthResult> addOnFailureListener(@NonNull OnFailureListener onFailureListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @Override
+                            public Task<AuthResult> addOnFailureListener(@NonNull Executor executor, @NonNull OnFailureListener onFailureListener) {
+                                return null;
+                            }
+
+                            @NonNull
+                            @Override
+                            public Task<AuthResult> addOnFailureListener(@NonNull Activity activity, @NonNull OnFailureListener onFailureListener) {
+                                return null;
+                            }
+                        };
+                        liveData.setValue(resultTask);
                     }
                 });
         return liveData;
@@ -98,14 +174,25 @@ public class UserDao {
      * @param email
      * @param password
      */
-    public LiveData<Task<AuthResult>> signUp(String email, String password, boolean isNeedVerify) {
+    public LiveData<Task<AuthResult>> signUp(String email, String password, String name,boolean isNeedVerify) {
         MediatorLiveData<Task<AuthResult>> liveData = new MediatorLiveData<>();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(name)
+                                .build();
+                        user.updateProfile(profileUpdates)
+                                .addOnCompleteListener(command -> {
+                                    if(command.isSuccessful()){
+                                        Log.d(TAG, "update name success");
+                                    }
+                                });
+
                         if (isNeedVerify) {
                             Log.d(TAG, "not isEmailVerified");
+
                             liveData.addSource(sendVerifyEmai(user), authResultTask -> {
                                 liveData.setValue(authResultTask);
                             });
@@ -221,11 +308,11 @@ public class UserDao {
      *
      * @param userId *
      */
-    public LiveData<Boolean> updateUserInfo(String userId, String email) {
+    public LiveData<Boolean> updateUserInfo(String userId, String email, String name) {
         MediatorLiveData<Boolean> result = new MediatorLiveData<>();
         firebase.getReference(Constants.USER_PATH)
                 .child(userId).updateChildren(
-                new User(userId, email).toMap(), (databaseError, databaseReference) -> {
+                new User(userId, email, name).toMap(), (databaseError, databaseReference) -> {
                     result.postValue(true);
                 });
         return result;

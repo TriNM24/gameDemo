@@ -5,14 +5,29 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:checkable="false"
             android:id="@+id/nav_menu_game1"
+            android:checkable="false"
             android:title="@string/game1_name" />
         <item
             android:id="@+id/nav_menu_game2"
+            android:checkable="false"
             android:title="@string/game2_name" />
         <item
             android:id="@+id/nav_menu_game3"
+            android:checkable="false"
             android:title="@string/game3_name" />
+        <item
+            android:id="@+id/nav_menu_top_player"
+            android:checkable="false"
+            android:title="@string/top_players" />
+        <item
+            android:id="@+id/nav_menu_setting"
+            android:checkable="false"
+            android:title="@string/setting_title" />
+        <item
+            android:id="@+id/nav_menu_logout"
+            android:checkable="false"
+            android:title="@string/menu_logout" />
+
     </group>
 </menu>

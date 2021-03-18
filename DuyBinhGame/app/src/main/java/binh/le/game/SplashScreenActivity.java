@@ -54,19 +54,16 @@ public class SplashScreenActivity extends BaseActivity<ActivitySplashScreenBindi
     }
 
     private synchronized void checkUser() {
+        Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(getBaseContext(),
+                android.R.anim.fade_in, android.R.anim.fade_out).toBundle();
+        Intent intent;
         if (isLogined) {
-            Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(getBaseContext(),
-                    android.R.anim.fade_in, android.R.anim.fade_out).toBundle();
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent, bundle);
+            intent = new Intent(this, MainActivity.class);
         } else {
-            Bundle bundle = ActivityOptionsCompat.makeCustomAnimation(getBaseContext(),
-                    android.R.anim.fade_in, android.R.anim.fade_out).toBundle();
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent, bundle);
+            intent = new Intent(this, LoginActivity.class);
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent, bundle);
     }
 
     @Override

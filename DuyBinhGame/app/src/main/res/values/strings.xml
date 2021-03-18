@@ -1,13 +1,13 @@
 <resources>
 
     <string name="nav_header_desc">Navigation header</string>
-    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_title">Project Game</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>
 
     <string name="app_name">DuyBinhGame</string>
-    <string name="actionbar_game_name">Project Game</string>
+    <string name="actionbar_game_name">Mini Games</string>
     <string name="game1_name">Caro Game</string>
     <string name="game2_name">Memory Game</string>
     <string name="game3_name">Sudoku Game</string>
@@ -66,19 +66,24 @@
     <string name="continue_new_save_board">Save</string>
     <string name="successful_new_board">New board saved</string>
 
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_login">Login</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_registry">Register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="invalid_mail">Not a valid mail</string>
     <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_name">Please input your name</string>
     <string name="confirm_title">Confirm</string>
     <string name="verify_email">An email send to you to verify, please check and click to sent link</string>
     <string name="login_message_password_invalid">The password is invalid</string>
     <string name="login_message_incorrect_pass_or_mail">Invalid e-mail or password.</string>
     <string name="login_message_incorrect_group_or_pass">Invalid group ID or password.</string>
     <string name="message_network_error">Network error has occurred.</string>
+    <string name="message_user_not_exist">The user %s is not exist</string>
+    <string name="login_create_account">Create Account?</string>
+    <string name="login_create_account_loading">Registering</string>
 
     <string name="setting_title">Setting</string>
     <string name="setting_name">Name</string>
@@ -107,6 +112,8 @@
     <string name="alert_win">You win!\nTime to win this game is %d seconds.</string>
     <string name="alert_game_4_out">Your current point is %d.\nDo you want continue?</string>
     <string name="alert_game_4_game_over">Game over. Your point is %d.</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--sudoku game end-->
 
 </resources>
