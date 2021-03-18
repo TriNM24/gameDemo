@@ -1,6 +1,5 @@
 package binh.le.game.gameBasic.caroGame.view;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,6 +10,8 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+
+import androidx.appcompat.app.AlertDialog;
 
 import binh.le.game.R;
 

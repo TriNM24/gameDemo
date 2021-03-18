@@ -1,23 +1,17 @@
 package binh.le.game.gameBasic.caroGame.view;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Insets;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowInsets;
 import android.view.WindowManager;
-import android.view.WindowMetrics;
+
+import androidx.appcompat.app.AlertDialog;
 
 import binh.le.game.R;
 import binh.le.game.firebase.FirebaseHelper;

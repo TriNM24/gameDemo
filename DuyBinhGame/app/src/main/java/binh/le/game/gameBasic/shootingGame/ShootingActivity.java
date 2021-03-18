@@ -1,20 +1,17 @@
 package binh.le.game.gameBasic.shootingGame;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import binh.le.game.R;
 import binh.le.game.base.BaseActivity;
 import binh.le.game.base.DialogInstruction;
 import binh.le.game.databinding.ActivityShootTheGuyBinding;
 import binh.le.game.firebase.FirebaseHelper;
-import binh.le.game.gameBasic.memoryGame.MemoryGameActivity;
 import binh.le.game.gameBasic.shootingGame.view.SoundEffects;
 import binh.le.game.ultis.Utils;
 
