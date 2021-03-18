@@ -10,120 +10,159 @@
             type="binh.le.game.MainActivity" />
     </data>
 
-    <ScrollView
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
-
+        android:layout_height="match_parent">
+        <!--main view-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/view_image_user"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:innerRadius="0dp"
-                android:shape="ring"
-                app:cardCornerRadius="80dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.1">
-
-                <ImageView
-                    android:id="@+id/img_user"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:onClick="@{()->onClick.openSetting()}"
-                    android:src="@drawable/img_default_account"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/txt_name"
-                android:layout_width="wrap_content"
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/layout_action_bar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_12_dp"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_image_user"
-                tools:text="@string/setting_name" />
+                android:theme="@style/Theme.DuyBinhGame.AppBarOverlay"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/btn_game1"
-                android:layout_width="wrap_content"
-                android:minWidth="@dimen/btn_width"
-                android:layout_height="@dimen/btn_height"
-                android:onClick="@{()->onClick.onClickGame1()}"
-                android:text="@string/game1_name"
-                android:layout_marginTop="@dimen/margin_20_dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/btn_game2"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_name"
-                app:layout_constraintVertical_chainStyle="packed" />
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
+                    app:popupTheme="@style/Theme.DuyBinhGame.PopupOverlay" />
 
-            <Button
-                android:id="@+id/btn_game2"
-                android:layout_width="wrap_content"
-                android:minWidth="@dimen/btn_width"
-                android:layout_height="@dimen/btn_height"
-                android:layout_marginTop="@dimen/margin_8_dp"
-                android:onClick="@{()->onClick.onClickGame2()}"
-                android:text="@string/game2_name"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/btn_game3"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_game1" />
+            </com.google.android.material.appbar.AppBarLayout>
 
-            <Button
-                android:id="@+id/btn_game3"
-                android:layout_width="wrap_content"
-                android:minWidth="@dimen/btn_width"
-                android:layout_height="@dimen/btn_height"
-                android:layout_marginTop="@dimen/margin_8_dp"
-                android:onClick="@{()->onClick.onClickGame3()}"
-                android:text="@string/game3_name"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/btn_game4"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_game2" />
-
-            <Button
-                android:id="@+id/btn_game4"
-                android:layout_width="wrap_content"
-                android:minWidth="@dimen/btn_width"
-                android:layout_height="@dimen/btn_height"
-                android:layout_marginTop="@dimen/margin_8_dp"
-                android:onClick="@{()->onClick.onClickGame4()}"
-                android:text="@string/game4_name"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_game3" />
-
-            <Button
-                android:id="@+id/btn_top_player"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btn_height"
-                android:layout_marginTop="@dimen/margin_8_dp"
-                android:onClick="@{()->onClick.onClickTopPlayer()}"
-                android:text="@string/top_players"
-                android:textStyle="bold"
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/white"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_game4" />
+                app:layout_constraintTop_toBottomOf="@+id/layout_action_bar">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/view_image_user"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        app:cardCornerRadius="80dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.1">
+
+                        <ImageView
+                            android:id="@+id/img_user"
+                            android:layout_width="160dp"
+                            android:layout_height="160dp"
+                            android:onClick="@{()->onClick.openSetting()}"
+                            android:src="@drawable/img_default_account"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/txt_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_12_dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view_image_user"
+                        tools:text="@string/setting_name" />
+
+                    <Button
+                        android:id="@+id/btn_game1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/btn_height"
+                        android:layout_marginTop="@dimen/margin_20_dp"
+                        android:minWidth="@dimen/btn_width"
+                        android:onClick="@{()->onClick.onClickGame1()}"
+                        android:text="@string/game1_name"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/btn_game2"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_name"
+                        app:layout_constraintVertical_chainStyle="packed" />
+
+                    <Button
+                        android:id="@+id/btn_game2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/btn_height"
+                        android:layout_marginTop="@dimen/margin_8_dp"
+                        android:minWidth="@dimen/btn_width"
+                        android:onClick="@{()->onClick.onClickGame2()}"
+                        android:text="@string/game2_name"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/btn_game3"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/btn_game1" />
+
+                    <Button
+                        android:id="@+id/btn_game3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/btn_height"
+                        android:layout_marginTop="@dimen/margin_8_dp"
+                        android:minWidth="@dimen/btn_width"
+                        android:onClick="@{()->onClick.onClickGame3()}"
+                        android:text="@string/game3_name"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/btn_game4"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/btn_game2" />
+
+                    <Button
+                        android:id="@+id/btn_game4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/btn_height"
+                        android:layout_marginTop="@dimen/margin_8_dp"
+                        android:minWidth="@dimen/btn_width"
+                        android:onClick="@{()->onClick.onClickGame4()}"
+                        android:text="@string/game4_name"
+                        android:textStyle="bold"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/btn_game3" />
+
+                    <Button
+                        android:id="@+id/btn_top_player"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/btn_height"
+                        android:layout_marginTop="@dimen/margin_8_dp"
+                        android:onClick="@{()->onClick.onClickTopPlayer()}"
+                        android:text="@string/top_players"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/btn_game4" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header_main"
+            app:menu="@menu/activity_main_drawer" />
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

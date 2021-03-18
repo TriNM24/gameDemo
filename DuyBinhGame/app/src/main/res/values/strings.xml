@@ -1,4 +1,11 @@
 <resources>
+
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
+
     <string name="app_name">DuyBinhGame</string>
     <string name="actionbar_game_name">Project Game</string>
     <string name="game1_name">Caro Game</string>

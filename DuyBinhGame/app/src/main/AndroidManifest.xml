@@ -29,7 +29,8 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:theme="@style/Theme.DuyBinhGame.NoActionBar"/>
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".gameBasic.sudoku.SudokuGameActivity" />
         <activity android:name=".gameBasic.memoryGame.MemoryGameActivity" />
