@@ -6,7 +6,7 @@
     app:startDestination="@id/caroGameComvsHumanFragment">
     <fragment
         android:id="@+id/caroGameComvsHumanFragment"
-        android:name="binh.le.game.gameBasic.caroGame.CaroGameComvsHumanFragment"
+        android:name="com.example.minigames.gameBasic.caroGame.CaroGameComvsHumanFragment"
         android:label="CaroGameComvsHumanFragment" >
         <action
             android:id="@+id/action_caroGameComvsHumanFragment_to_caroGameDualFragment"
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/caroGameDualFragment"
-        android:name="binh.le.game.gameBasic.caroGame.CaroGameDualFragment"
+        android:name="com.example.minigames.gameBasic.caroGame.CaroGameDualFragment"
         android:label="CaroGameDualFragment" >
         <action
             android:id="@+id/action_caroGameDualFragment_to_caroGameComvsHumanFragment"

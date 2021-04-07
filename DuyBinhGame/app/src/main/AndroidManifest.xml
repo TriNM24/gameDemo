@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="binh.le.game">
+    package="com.example.minigames">
 
     <application
         android:allowBackup="true"
@@ -8,14 +8,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".MyApplication"
+        android:name="com.example.minigames.MyApplication"
         android:theme="@style/Theme.DuyBinhGame">
         <activity
-            android:name=".gameBasic.topPlayer.TopPlayerActivity"
+            android:name="com.example.minigames.gameBasic.topPlayer.TopPlayerActivity"
             android:label="@string/title_activity_top_player" />
-        <activity android:name=".setting.SettingActivity" />
+        <activity android:name="com.example.minigames.setting.SettingActivity" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name="com.example.minigames.SplashScreenActivity"
             android:theme="@style/Theme.DuyBinhGame.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,19 +30,19 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name="com.example.minigames.MainActivity"
             android:theme="@style/Theme.DuyBinhGame.NoActionBar"/>
-        <activity android:name=".login.LoginActivity" />
-        <activity android:name=".gameBasic.sudoku.SudokuGameActivity" />
-        <activity android:name=".gameBasic.memoryGame.MemoryGameActivity" />
+        <activity android:name="com.example.minigames.login.LoginActivity" />
+        <activity android:name="com.example.minigames.gameBasic.sudoku.SudokuGameActivity" />
+        <activity android:name="com.example.minigames.gameBasic.memoryGame.MemoryGameActivity" />
         <activity
-            android:name=".gameBasic.caroGame.CaroGameActivity"
+            android:name="com.example.minigames.gameBasic.caroGame.CaroGameActivity"
             android:label="@string/title_activity_caro_game" />
 
-        <activity android:name=".gameBasic.shootingGame.ShootingActivity"/>
+        <activity android:name="com.example.minigames.gameBasic.shootingGame.ShootingActivity"/>
 
         <service
-            android:name=".service.BackgroundSoundService"
+            android:name="com.example.minigames.service.BackgroundSoundService"
             android:enabled="true" />
     </application>
 

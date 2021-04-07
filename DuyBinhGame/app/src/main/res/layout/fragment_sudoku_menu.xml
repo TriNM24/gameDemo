@@ -3,7 +3,7 @@
     <data>
         <variable
             name="action"
-            type="binh.le.game.gameBasic.sudoku.SudokuMenuFragment" />
+            type="com.example.minigames.gameBasic.sudoku.SudokuMenuFragment" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

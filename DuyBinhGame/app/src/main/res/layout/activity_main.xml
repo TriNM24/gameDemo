@@ -7,7 +7,7 @@
 
         <variable
             name="onClick"
-            type="binh.le.game.MainActivity" />
+            type="com.example.minigames.MainActivity" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout

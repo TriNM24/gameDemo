@@ -3,7 +3,7 @@
     <data>
         <variable
             name="actions"
-            type="binh.le.game.gameBasic.sudoku.ChooseNumberDiaglogFragment" />
+            type="com.example.minigames.gameBasic.sudoku.ChooseNumberDiaglogFragment" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
