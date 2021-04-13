@@ -42,6 +42,8 @@
 
         <activity android:name="com.example.minigames.gameBasic.shootingGame.ShootingActivity"/>
 
+        <activity android:name="com.example.minigames.gameBasic.helicopterGame.HelicopterGameActivity"/>
+
         <service
             android:name="com.example.minigames.service.BackgroundSoundService"
             android:enabled="true" />

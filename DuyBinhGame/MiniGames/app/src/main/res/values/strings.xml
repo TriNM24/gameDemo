@@ -29,6 +29,7 @@
     <string name="game2_name">Memory Game</string>
     <string name="game3_name">Sudoku Game</string>
     <string name="game4_name">Shooting Game</string>
+    <string name="game5_name">Helicopter Game</string>
     <string name="menu_top_players">Top players</string>
     <string name="menu_setting">Setting</string>
     <string name="menu_logout">Logout</string>
@@ -50,6 +51,9 @@
     <string name="title_activity_memory_game">Memory Game</string>
     <string name="memory_game_shuffle">Shuffle</string>
     <string name="memory_game_new_game">New game</string>
+
+    <!--Helicopter game-->
+    <string name="title_activity_helicopter_game">Helicopter Game</string>
 
     <string name="nav_header_desc">Navigation header</string>
     <string name="nav_header_title">Project Game</string>

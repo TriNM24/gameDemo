@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 
 import com.example.minigames.databinding.NavHeaderMainBinding;
+import com.example.minigames.gameBasic.helicopterGame.HelicopterGameActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -223,6 +224,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     public void onClickGame4() {
         Intent sudokuGame = new Intent(this, ShootingActivity.class);
         startActivityWithAnimation(sudokuGame);
+    }
+
+    public void onClickGame5() {
+        Intent helicopterGame = new Intent(this, HelicopterGameActivity.class);
+        startActivityWithAnimation(helicopterGame);
     }
 
     public void onClickTopPlayer() {
