@@ -1,0 +1,138 @@
+<resources>
+    <!-- Login Activity -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_login">Login</string>
+    <string name="login_create_account">Create Account?</string>
+    <string name="title_activity_login">Login...</string>
+
+    <!-- Register Activity -->
+    <string name="action_register">Register</string>
+    <string name="action_login_short">Have already an account?</string>
+    <string name="have_already_an_account">Have already an account?</string>
+    <string name="login_create_account_loading">Register...</string>
+
+    <!-- Exception -->
+    <string name="confirm_title">Confirm</string>
+    <string name="invalid_mail">Please input your email</string>
+    <string name="invalid_password">Please input your password</string>
+    <string name="invalid_name">Please input your name</string>
+    <string name="login_message_incorrect_pass_or_mail">Invalid Email or Password</string>
+    <string name="message_network_error">Network error has occurred</string>
+    <string name="verify_email">An email send to you to verify, please check and click to sent link</string>
+    <string name="message_user_not_exist">The user %s is not exist</string>
+
+    <string name="todo">TODO</string>
+
+    <!-- For Navigation Menu (Left) -->
+    <string name="game1_name">Caro Game</string>
+    <string name="game2_name">Memory Game</string>
+    <string name="game3_name">Sudoku Game</string>
+    <string name="game4_name">Shooting Game</string>
+    <string name="menu_top_players">Top players</string>
+    <string name="menu_setting">Setting</string>
+    <string name="menu_logout">Logout</string>
+
+    <!-- For Function Menu (Right) - General -->
+    <string name="menu_information">Information</string>
+        <!-- Function Menu - Setting -->
+        <string name="menu_setting_edit">Edit</string>
+        <string name="menu_setting_save">Save</string>
+
+    <!-- Caro Game -->
+    <string name="title_activity_caro_game">Caro Game</string>
+    <string name="caro_game_com_vs_human_fragment_label">Computer Vs Human</string>
+    <string name="caro_game_dual_fragment_label">Human vs Human</string>
+    <string name="menu_caro_game_dual_play">Dual play</string>
+    <string name="menu_caro_game_play_with_computer">Play with computer</string>
+
+    <!-- Memory Game -->
+    <string name="title_activity_memory_game">Memory Game</string>
+    <string name="memory_game_shuffle">Shuffle</string>
+    <string name="memory_game_new_game">New game</string>
+
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_title">Project Game</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
+
+    <string name="app_name">MiniGames</string>
+    <string name="actionbar_game_name">Mini Games</string>
+
+    <!-- Strings used for fragments for navigation -->
+
+
+    <string name="instructions_game_memory">1. Choose Two cards to flip over, if the images are the same you get a point, if not the images flip back over.\n2. You must correctly choose the correct images within a certain amount of turns.</string>
+
+    <!--sudoku game start-->
+    <string name="sudoku_game_title">Sudoku game</string>
+    <string name="sudoku_game_new_game">Start New Game</string>
+    <string name="sudoku_game_add_new_board">New board saved</string>
+    <string name="sudoku_game_add_show_instructions">Show instructions</string>
+    <string name="sudoku_game_difficulty_easy">Easy</string>
+    <string name="sudoku_game_difficulty_normal">Normal</string>
+    <string name="sudoku_game_difficulty_hard">Hard</string>
+    <string name="sudoku_game_tart_game">Start Game</string>
+    <string name="sudoku_game_show_instructions">Show instructions</string>
+    <string name="sudoku_game_check_board">Check board</string>
+    <string name="board_correct">Board is correct</string>
+    <string name="board_incorrect">Board is not correct</string>
+    <string name="start_piece_error">Can not change start piece</string>
+    <string name="choose_a_number">Choose number to place:</string>
+    <string name="choose_number">Choose number</string>
+    <string name="piece_unsure">Mark piece as unsure</string>
+    <string name="remove_piece">Remove piece</string>
+
+    <string name="instructions">Instructions</string>
+    <string name="instructions_1">1. In Sudoku it is intended to place all the remaining pieces on the board. The numbers range from 1 to 9 (in 9x9 Sudoku).</string>
+    <string name="instructions_2">2. The board is separated into several squares, and inside each of them it is only allowed to place one of each number.</string>
+    <string name="instructions_3">3. It is only allowed to place one of each number at each row, both horizontal and vertical.</string>
+
+    <string name="instruction_caro1">1. Once a player places a symbol on the board, the symbol cannot be moved or changed.</string>
+    <string name="instruction_caro2">2. The player that manages to create five in a row first wins the round.</string>
+    <string name="instruction_caro3">3. The row can be horizontal, vertical, or diagonal as long as it is unbroken.</string>
+
+    <string name="instruction_shooting1">1. You have 10 chances to destroy the moving object.</string>
+    <string name="instruction_shooting2">2. Click two button on the side to move, and click center button to fire.</string>
+
+    <string name="add_new_board">Add new board</string>
+    <string name="continue_new_save_board">Save</string>
+    <string name="successful_new_board">New board saved</string>
+
+
+
+    <string name="setting_name">Name</string>
+
+
+    <string name="setting_set_new_pass">Set new pass</string>
+    <string name="setting_set_new_value">Set new value</string>
+    <string name="setting_set_new_done">Done</string>
+    <string name="setting_upate_success">User profile updated.</string>
+    <string name="setting_best_score">User best score</string>
+    <string name="setting_best_score_game1">Game1: %s seconds</string>
+    <string name="setting_best_score_game2">Game2: %s seconds</string>
+    <string name="setting_best_score_game3">Game3: %s seconds</string>
+    <string name="setting_best_score_game4">Game4: %s points</string>
+
+    <string name="title_activity_top_player">Top Players</string>
+    <string name="tab_text_1">Caro</string>
+    <string name="tab_text_2">Memory</string>
+    <string name="tab_text_3">Sudoku</string>
+    <string name="tab_text_4">Defend</string>
+    <string name="top_score">%d seconds</string>
+    <string name="top_score_point">%d points</string>
+
+    <string name="shooting_game_title">Shooting game</string>
+    <string name="shooting_game_score">Score: %d</string>
+    <string name="shooting_game_remain">Remain: %d</string>
+
+    <string name="alert_win">You win!\nTime to win this game is %d seconds.</string>
+    <string name="alert_game_4_out">Your current point is %d.\nDo you want continue?</string>
+    <string name="alert_game_4_game_over">Game over. Your point is %d.</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--sudoku game end-->
+
+</resources>
