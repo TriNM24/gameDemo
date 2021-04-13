@@ -43,6 +43,8 @@ public class Board_ComVsHum extends View {
     //variable to save point for game
     long mStartTime = 0;
 
+    int mSizeLast = 0;
+
     public Board_ComVsHum(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -73,6 +75,7 @@ public class Board_ComVsHum extends View {
 
         System.out.println("Tính: " + "m= " + m + "; n= " + n);
         m = width / grid_size;
+        mSizeLast = width / grid_size;
         n = height / grid_size;
         System.out.println("Giá trị sau vẽ : " + "m= " + m + "; n= " + n + "grid_sze" + grid_size);
         grid_width = m;
@@ -109,12 +112,20 @@ public class Board_ComVsHum extends View {
                 //Fill rectangle
                 paint.setTextSize(grid_size / 2);
                 paint.setStyle(Paint.Style.FILL);
-                canvas.drawRect(new Rect(i * grid_size, j * grid_size, (i + 1) * grid_size, (j + 1) * grid_size), paint);
+                int xright = (i + 1) * grid_size;
+                if ((i + 1) == grid_width) {
+                    xright += mSizeLast;
+                }
+                canvas.drawRect(new Rect(i * grid_size, j * grid_size, xright, (j + 1) * grid_size), paint);
 
                 // Border rectangle
                 paint.setStyle(Paint.Style.STROKE);
                 paint.setColor(Color.BLACK);
-                canvas.drawRect(new Rect(i * grid_size, j * grid_size, (i + 1) * grid_size, (j + 1) * grid_size), paint);
+                xright = (i + 1) * grid_size;
+                if ((i + 1) == grid_width) {
+                    xright += mSizeLast;
+                }
+                canvas.drawRect(new Rect(i * grid_size, j * grid_size, xright, (j + 1) * grid_size), paint);
                 Rect bounds = new Rect();
                 paint.getTextBounds("X", 0, 1, bounds);
                 canvas.drawText(cell_char, 0, 1, i * grid_size + (grid_size - bounds.width()) / 2, j * grid_size + (bounds.height() + (grid_size - bounds.height()) / 2), paint);
@@ -134,7 +145,7 @@ public class Board_ComVsHum extends View {
         invalidate();
     }
 
-    private void showConfirmRetake(){
+    private void showConfirmRetake() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Caro game");
         builder.setIcon(R.drawable.warning);
