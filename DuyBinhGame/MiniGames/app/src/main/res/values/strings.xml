@@ -118,14 +118,17 @@
     <string name="setting_best_score_game2">Game2: %s seconds</string>
     <string name="setting_best_score_game3">Game3: %s seconds</string>
     <string name="setting_best_score_game4">Game4: %s points</string>
+    <string name="setting_best_score_game5">Game5: %s meter</string>
 
     <string name="title_activity_top_player">Top Players</string>
     <string name="tab_text_1">Caro</string>
     <string name="tab_text_2">Memory</string>
     <string name="tab_text_3">Sudoku</string>
     <string name="tab_text_4">Defend</string>
+    <string name="tab_text_5">Helicopter</string>
     <string name="top_score">%d seconds</string>
     <string name="top_score_point">%d points</string>
+    <string name="top_score_meter">%d meters</string>
 
     <string name="shooting_game_title">Shooting game</string>
     <string name="shooting_game_score">Score: %d</string>

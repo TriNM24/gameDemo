@@ -59,5 +59,15 @@
             app:layout_constraintTop_toBottomOf="@+id/txt_game3_title"
             tools:text="@string/setting_best_score_game1" />
 
+        <TextView
+            android:id="@+id/txt_game5_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="@+id/txt_game1_title"
+            app:layout_constraintTop_toBottomOf="@+id/txt_game4_title"
+            tools:text="@string/setting_best_score_game1" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

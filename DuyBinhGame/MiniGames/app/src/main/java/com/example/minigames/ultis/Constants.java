@@ -10,5 +10,6 @@ public interface Constants {
         String SCORE_GAME2 = "scoreGame2";
         String SCORE_GAME3 = "scoreGame3";
         String SCORE_GAME4 = "scoreGame4";
+        String SCORE_GAME5 = "scoreGame5";
     }
 }

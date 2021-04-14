@@ -147,6 +147,7 @@ public class SettingActivity extends BaseActivity<ActivitySettingBinding> {
             binding.layoutScore.txtGame2Title.setText(getString(R.string.setting_best_score_game2, String.valueOf(user.getScoreGame2())));
             binding.layoutScore.txtGame3Title.setText(getString(R.string.setting_best_score_game3, String.valueOf(user.getScoreGame3())));
             binding.layoutScore.txtGame4Title.setText(getString(R.string.setting_best_score_game4, String.valueOf(user.getScoreGame4())));
+            binding.layoutScore.txtGame5Title.setText(getString(R.string.setting_best_score_game5, String.valueOf(user.getScoreGame5())));
         });
     }
 

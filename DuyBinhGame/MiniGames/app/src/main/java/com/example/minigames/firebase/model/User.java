@@ -12,7 +12,7 @@ public class User {
     private String id;
     private String email;
     private String name;
-    private long scoreGame1, scoreGame2, scoreGame3, scoreGame4;
+    private long scoreGame1, scoreGame2, scoreGame3, scoreGame4, scoreGame5;
 
     public User() {
     }
@@ -70,6 +70,14 @@ public class User {
 
     public void setScoreGame4(long scoreGame4) {
         this.scoreGame4 = scoreGame4;
+    }
+
+    public long getScoreGame5() {
+        return scoreGame5;
+    }
+
+    public void setScoreGame5(long scoreGame5) {
+        this.scoreGame5 = scoreGame5;
     }
 
     public String getName() {

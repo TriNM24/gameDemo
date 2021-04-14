@@ -3,18 +3,17 @@
     package="com.example.minigames">
 
     <application
+        android:name="com.example.minigames.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name="com.example.minigames.MyApplication"
         android:theme="@style/Theme.MiniGames">
         <activity
             android:name="com.example.minigames.gameBasic.topPlayer.TopPlayerActivity"
             android:label="@string/title_activity_top_player" />
-        <activity
-            android:name="com.example.minigames.setting.SettingActivity" />
+        <activity android:name="com.example.minigames.setting.SettingActivity" />
         <activity
             android:name="com.example.minigames.SplashScreenActivity"
             android:theme="@style/Theme.MiniGames.NoActionBar">
@@ -24,15 +23,18 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="www.example.com"
                     android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.minigames.MainActivity"
-            android:theme="@style/Theme.MiniGames.NoActionBar"/>
+        <activity
+            android:name="com.example.minigames.MainActivity"
+            android:theme="@style/Theme.MiniGames.NoActionBar" />
         <activity android:name="com.example.minigames.login.LoginActivity" />
         <activity android:name="com.example.minigames.gameBasic.sudoku.SudokuGameActivity" />
         <activity android:name="com.example.minigames.gameBasic.memoryGame.MemoryGameActivity" />
@@ -40,9 +42,11 @@
             android:name="com.example.minigames.gameBasic.caroGame.CaroGameActivity"
             android:label="@string/title_activity_caro_game" />
 
-        <activity android:name="com.example.minigames.gameBasic.shootingGame.ShootingActivity"/>
+        <activity android:name="com.example.minigames.gameBasic.shootingGame.ShootingActivity" />
 
-        <activity android:name="com.example.minigames.gameBasic.helicopterGame.HelicopterGameActivity"/>
+        <activity
+            android:name="com.example.minigames.gameBasic.helicopterGame.HelicopterGameActivity"
+            android:screenOrientation="landscape" />
 
         <service
             android:name="com.example.minigames.service.BackgroundSoundService"

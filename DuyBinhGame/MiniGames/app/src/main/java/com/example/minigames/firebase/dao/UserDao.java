@@ -158,7 +158,7 @@ public class UserDao {
      * @param email
      * @param password
      */
-    public LiveData<Task<AuthResult>> signUp(String email, String password, String name,boolean isNeedVerify) {
+    public LiveData<Task<AuthResult>> signUp(String email, String password, String name, boolean isNeedVerify) {
         MediatorLiveData<Task<AuthResult>> liveData = new MediatorLiveData<>();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
@@ -169,7 +169,7 @@ public class UserDao {
                                 .build();
                         user.updateProfile(profileUpdates)
                                 .addOnCompleteListener(command -> {
-                                    if(command.isSuccessful()){
+                                    if (command.isSuccessful()) {
                                         Log.d(TAG, "update name success");
                                     }
                                 });
@@ -322,6 +322,9 @@ public class UserDao {
             case 4:
                 gamePath = Constants.User.SCORE_GAME4;
                 break;
+            case 5:
+                gamePath = Constants.User.SCORE_GAME5;
+                break;
             default:
                 gamePath = Constants.User.SCORE_GAME1;
 
@@ -420,6 +423,10 @@ public class UserDao {
             }
             case 4: {
                 orderChild = Constants.User.SCORE_GAME4;
+                break;
+            }
+            case 5: {
+                orderChild = Constants.User.SCORE_GAME5;
                 break;
             }
             default:
