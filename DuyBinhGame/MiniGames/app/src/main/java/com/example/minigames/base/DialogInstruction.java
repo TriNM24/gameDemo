@@ -1,6 +1,7 @@
 package com.example.minigames.base;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.example.minigames.R;
 public class DialogInstruction extends DialogFragment {
 
     public static String TAG_LAYOUT_ID = "layout_id";
+    private CallBack mCallBack;
 
     public static DialogInstruction newInstance(int layoutID) {
         Bundle args = new Bundle();
@@ -22,6 +24,10 @@ public class DialogInstruction extends DialogFragment {
         DialogInstruction fragment = new DialogInstruction();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setCallBack(CallBack callBack){
+        this.mCallBack = callBack;
     }
 
     @Override
@@ -49,5 +55,17 @@ public class DialogInstruction extends DialogFragment {
         int layoutId = getArguments().getInt(TAG_LAYOUT_ID, R.layout.dialog_memory_game_instruction);
         View root = inflater.inflate(layoutId, null);
         return root;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if(mCallBack != null){
+            mCallBack.onClose();
+        }
+    }
+
+    public interface CallBack{
+        public void onClose();
     }
 }

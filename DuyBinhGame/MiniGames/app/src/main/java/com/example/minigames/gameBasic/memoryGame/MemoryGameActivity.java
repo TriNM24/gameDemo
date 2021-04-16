@@ -1,6 +1,7 @@
 package com.example.minigames.gameBasic.memoryGame;
 
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +21,7 @@ import com.example.minigames.base.BaseActivity;
 import com.example.minigames.base.DialogInstruction;
 import com.example.minigames.databinding.ActivityMemoryGameBinding;
 import com.example.minigames.firebase.FirebaseHelper;
+import com.example.minigames.gameBasic.caroGame.CaroGameActivity;
 import com.example.minigames.ultis.Utils;
 
 public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
@@ -66,7 +69,7 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
         return super.onOptionsItemSelected(item);
     }
 
-    public void initGame(){
+    public void initGame() {
         adapter = new ImageAdapter(this, true);
         gameArray = adapter.getArray();
         binding.gameLayout.setAdapter(adapter);
@@ -164,7 +167,15 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
                             FirebaseHelper.getInstance().getUserDao().updateGamePoint(2, time);
                             mIsWon = true;
                             binding.shuffleButton.setText(getString(R.string.memory_game_new_game));
-                            Utils.showAlertDialog(MemoryGameActivity.this, getString(R.string.game2_name), getString(R.string.alert_win, time));
+                            binding.shuffleButton.setVisibility(View.VISIBLE);
+
+                            Utils.showConfirmDialog(MemoryGameActivity.this, getString(R.string.game2_name), getString(R.string.alert_win, time),
+                                    R.drawable.congra,
+                                    (dialog, which) -> {
+                                        if (which == DialogInterface.BUTTON_NEGATIVE) {
+                                            onSupportNavigateUp();
+                                        }
+                                    });
                         } else {
                             binding.pointCounter.setText("Points: " + pointCounter);
                         }
@@ -178,8 +189,6 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
                             flip.start();
                         }
                         activeCards.clear();
-
-
                     }
                     binding.gameLayout.setEnabled(true);
 
@@ -189,10 +198,11 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
     }
 
     public void shuffleGame() {
-        if(mIsWon){
+        if (mIsWon) {
             binding.shuffleButton.setText(getString(R.string.memory_game_shuffle));
-            initGame();
-        }else {
+            binding.shuffleButton.setVisibility(View.INVISIBLE);
+            Utils.showAlertDialog(this,"New game", "Do you want start new game?", R.drawable.newgame,(dialog, which) -> initGame());
+        } else {
             int size = checkMarkIndexes.size();
             if (pointCounter > 0 && pointCounter < 10) {
                 Integer[] newArray = new Integer[20];

@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.minigames.R;
+import com.example.minigames.gameBasic.caroGame.CaroGameActivity;
 
 public class Board_HumVsHum extends View {
     private int m = 18, n = 18; // Khởi tạo số ô cờ
@@ -169,7 +170,10 @@ public class Board_HumVsHum extends View {
             newbuilder.setIcon(R.drawable.newgame);
 
             newbuilder.setPositiveButton("Yes", (dialog1, which1) -> clear());
-            newbuilder.setNegativeButton("No", (dialog12, id) -> dialog12.cancel());
+            newbuilder.setNegativeButton("No", (dialog12, id) -> {
+                dialog12.cancel();
+                ((CaroGameActivity)getContext()).onSupportNavigateUp();
+            });
             newbuilder.create().show();
         });
         builder.create().show();

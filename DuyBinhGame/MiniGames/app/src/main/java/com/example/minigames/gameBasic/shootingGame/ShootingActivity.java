@@ -89,7 +89,10 @@ public class ShootingActivity extends BaseActivity<ActivityShootingGameBinding> 
                 }
                 break;
             case R.id.menu_information:
-                DialogInstruction.newInstance(R.layout.dialog_instruction_shooting).show(getSupportFragmentManager(),"caro_instruction");
+                binding.drawView.stopGame();
+                DialogInstruction dialogInstruction = DialogInstruction.newInstance(R.layout.dialog_instruction_shooting);
+                dialogInstruction.setCallBack(() -> binding.drawView.resumeGame());
+                dialogInstruction.show(getSupportFragmentManager(),"caro_instruction");
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -195,7 +195,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     @Override
     protected void onResume() {
         super.onResume();
-        startService(intentMusicBg);
+        if(play_music) {
+            startService(intentMusicBg);
+        }
         mHeader.txtUserMail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         mHeader.txtProjectName.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
     }

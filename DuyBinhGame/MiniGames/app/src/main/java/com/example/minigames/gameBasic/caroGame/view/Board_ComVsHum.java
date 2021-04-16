@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.minigames.R;
 import com.example.minigames.firebase.FirebaseHelper;
+import com.example.minigames.gameBasic.caroGame.CaroGameActivity;
 import com.example.minigames.ultis.Utils;
 
 public class Board_ComVsHum extends View {
@@ -170,7 +171,10 @@ public class Board_ComVsHum extends View {
                 newbuilder.setIcon(R.drawable.newgame);
 
                 newbuilder.setPositiveButton("Yes", (dialog1, which1) -> clear());
-                newbuilder.setNegativeButton("No", (dialog12, id) -> dialog12.cancel());
+                newbuilder.setNegativeButton("No", (dialog12, id) -> {
+                    dialog12.cancel();
+                    ((CaroGameActivity)getContext()).onSupportNavigateUp();
+                });
                 newbuilder.create().show();
                 dialog.cancel();
             });
@@ -190,7 +194,10 @@ public class Board_ComVsHum extends View {
                 newbuilder.setIcon(R.drawable.newgame);
 
                 newbuilder.setPositiveButton("Yes", (dialog1, which1) -> clear());
-                newbuilder.setNegativeButton("No", (dialog12, id) -> dialog12.cancel());
+                newbuilder.setNegativeButton("No", (dialog12, id) -> {
+                    dialog12.cancel();
+                    ((CaroGameActivity)getContext()).onSupportNavigateUp();
+                });
                 newbuilder.create().show();
                 dialog.cancel();
             });
