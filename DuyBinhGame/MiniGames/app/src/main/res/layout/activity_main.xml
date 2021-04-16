@@ -165,7 +165,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/shotting_game" />
+                            android:src="@drawable/helicopter_game" />
 
                         <TextView
                             android:layout_width="wrap_content"

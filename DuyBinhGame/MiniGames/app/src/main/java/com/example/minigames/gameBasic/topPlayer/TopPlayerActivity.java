@@ -55,7 +55,7 @@ public class TopPlayerActivity extends BaseActivity<ActivityTopPlayerBinding> {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_shooting_game, menu);
+        getMenuInflater().inflate(R.menu.menu_app_main, menu);
 
         this.menu = menu;
         if (play_music) {

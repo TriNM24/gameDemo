@@ -76,7 +76,7 @@ public class Board_ComVsHum extends View {
 
         System.out.println("Tính: " + "m= " + m + "; n= " + n);
         m = width / grid_size;
-        mSizeLast = width / grid_size;
+        mSizeLast = width % grid_size;
         n = height / grid_size;
         System.out.println("Giá trị sau vẽ : " + "m= " + m + "; n= " + n + "grid_sze" + grid_size);
         grid_width = m;
@@ -122,10 +122,6 @@ public class Board_ComVsHum extends View {
                 // Border rectangle
                 paint.setStyle(Paint.Style.STROKE);
                 paint.setColor(Color.BLACK);
-                xright = (i + 1) * grid_size;
-                if ((i + 1) == grid_width) {
-                    xright += mSizeLast;
-                }
                 canvas.drawRect(new Rect(i * grid_size, j * grid_size, xright, (j + 1) * grid_size), paint);
                 Rect bounds = new Rect();
                 paint.getTextBounds("X", 0, 1, bounds);

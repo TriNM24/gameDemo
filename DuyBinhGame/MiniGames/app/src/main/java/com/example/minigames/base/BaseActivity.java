@@ -79,6 +79,11 @@ public abstract class BaseActivity<BD extends ViewDataBinding> extends AppCompat
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
+
     private void hideMenuBack() {
         ActionBar supportActionBar = getSupportActionBar();
         if(supportActionBar != null) {

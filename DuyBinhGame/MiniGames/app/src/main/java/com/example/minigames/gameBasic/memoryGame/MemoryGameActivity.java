@@ -76,7 +76,7 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
         mIsWon = false;
         activeCards = new ArrayList<>();
         pointCounter = 0;
-        binding.pointCounter.setText("Points: " + pointCounter);
+        //binding.pointCounter.setText("Points: " + pointCounter);
         indexes = new int[2];
         checkMarkIndexes = new ArrayList<>();
         for (int i = 0; i < binding.gameLayout.getAdapter().getCount(); i++) {
@@ -161,7 +161,6 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
                     else if ((int) activeCards.get(0).getTag() != R.drawable.checkmark && (int) activeCards.get(1).getTag() != R.drawable.checkmark) {
                         pointCounter += 1;
                         if (pointCounter >= 10) {
-                            binding.pointCounter.setText("You Win!");
                             //update point for game 2
                             long time = Utils.millisecondToSecond(System.currentTimeMillis() - mStartTime);
                             FirebaseHelper.getInstance().getUserDao().updateGamePoint(2, time);
@@ -177,7 +176,7 @@ public class MemoryGameActivity extends BaseActivity<ActivityMemoryGameBinding>
                                         }
                                     });
                         } else {
-                            binding.pointCounter.setText("Points: " + pointCounter);
+                            //binding.pointCounter.setText("Points: " + pointCounter);
                         }
                         for (int i = 0; i < activeCards.size(); i++) {
                             //activeCards.get(i).setImageResource(R.drawable.checkmark);

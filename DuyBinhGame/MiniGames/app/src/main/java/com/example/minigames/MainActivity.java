@@ -14,6 +14,7 @@ import androidx.core.view.GravityCompat;
 
 import com.example.minigames.databinding.NavHeaderMainBinding;
 import com.example.minigames.gameBasic.helicopterGame.HelicopterGameActivity;
+import com.example.minigames.login.LoginActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -243,7 +244,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     }
     public void logOut(){
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(this, SplashScreenActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivityWithAnimation(intent);
         finish();

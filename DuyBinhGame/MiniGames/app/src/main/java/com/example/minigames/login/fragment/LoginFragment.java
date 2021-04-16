@@ -4,9 +4,14 @@ import android.content.Intent;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
+import com.example.minigames.login.ResetPassDiaglogFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -42,6 +47,22 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
 
     public void createAccount(){
         findNavController(this).navigate(R.id.action_loginFragment_to_registryFragment);
+    }
+
+    public void resetPassword(){
+        ResetPassDiaglogFragment resetPassDiaglogFragment = ResetPassDiaglogFragment.newInstance();
+        resetPassDiaglogFragment.setCallback(email -> {
+            getChildFragmentManager().beginTransaction().add(loadingDialog, "").commitAllowingStateLoss();
+            FirebaseAuth instance = FirebaseAuth.getInstance();
+            instance.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+                if (loadingDialog != null) {
+                    loadingDialog.dismissAllowingStateLoss();
+                }
+                Utils.showAlertDialog(getContext(),getString(R.string.confirm_title),
+                        getString(R.string.reset_pass_confirm));
+            });
+        });
+        resetPassDiaglogFragment.show(getChildFragmentManager(),"resetPass");
     }
 
     public void login() {

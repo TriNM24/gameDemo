@@ -107,7 +107,7 @@ public class UserDao {
                             @Nullable
                             @Override
                             public Exception getException() {
-                                return new Exception(MyApplication.getContext().getString(R.string.message_user_not_exist, email));
+                                return task.getException();
                             }
 
                             @NonNull

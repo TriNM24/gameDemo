@@ -4,7 +4,11 @@
     <string name="prompt_password">Password</string>
     <string name="action_login">Login</string>
     <string name="login_create_account">Create Account?</string>
+    <string name="login_reset_pass">Reset password?</string>
     <string name="title_activity_login">Login...</string>
+
+    <string name="reset_pass_title">Reset password</string>
+    <string name="reset_pass_confirm">A reset link was sent to your email, please check to reset the pass!</string>
 
     <!-- Register Activity -->
     <string name="action_register">Register</string>
